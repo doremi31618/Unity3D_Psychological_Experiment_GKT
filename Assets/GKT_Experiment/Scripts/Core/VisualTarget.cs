@@ -85,15 +85,15 @@ public class VisualTarget : MonoBehaviour
         
         if (mode == 0)
         {
-            ChangeCameraView(LeftEyeCamera.transform, WeakEyeEyeLayer);
-            ChangeCameraView(RightEyeCamera.transform, StrongEyeLayer);
-            Debug.Log("mode 0 ; weakeye : lefteye ; strongeye : righteye");
+            ChangeCameraView(LeftEyeCamera.transform, StrongEyeLayer);
+            ChangeCameraView(RightEyeCamera.transform, WeakEyeEyeLayer);
+            Debug.Log("mode 0 ; weakeye : righteye ; strongeye : lefteye");
         }
         else if (mode == 1)
         {
-            ChangeCameraView(LeftEyeCamera.transform, StrongEyeLayer);
-            ChangeCameraView(RightEyeCamera.transform, WeakEyeEyeLayer);
-            Debug.Log("mode 1 ; weakeye : righteye ; strongeye : lefteye");
+            ChangeCameraView(LeftEyeCamera.transform, WeakEyeEyeLayer);
+            ChangeCameraView(RightEyeCamera.transform, StrongEyeLayer);
+            Debug.Log("mode 1 ; weakeye : lefteye ; strongeye : righteye");
         }
     }
     public void SetImageAlpha(float alpha)

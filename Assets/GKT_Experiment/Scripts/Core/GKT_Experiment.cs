@@ -46,6 +46,7 @@ public class GKT_Experiment : MonoBehaviour
     public static float version = 1.0f;
     DataManager dataManager;
     public VisualTarget visualTarget;
+    public EyeTracker eyeTracker;
     [Header("Page")]
     public Page settingPage;
     public Page previewPage;
@@ -74,7 +75,7 @@ public class GKT_Experiment : MonoBehaviour
         InitializeExperiment();
     }
     /// <summary>
-    /// Processing when user click start Experiment 
+    /// Processing when the whole program start 
     /// </summary>
     void InitializeExperiment()
     {
@@ -83,9 +84,12 @@ public class GKT_Experiment : MonoBehaviour
         ((SettingPage)settingPage).pageSwitch += new PageSwitchingHandler(PageEvent);
         ((MainMenuPage)mainMenuPage).pageSwitch += new PageSwitchingHandler(PageEvent);
         dataManager = new DataManager();
-
     }
 
+    /// <summary>
+    /// Processing when each trail start 
+    /// </summary>
+    /// <param name="index"></param>
     void InitTrial(int index)
     {
         experimentPage.InitPage(currentTrial);
@@ -108,6 +112,8 @@ public class GKT_Experiment : MonoBehaviour
     void StartExperiment(){
         
         dataManager.LoadResource();
+        visualTarget.SetEyeCameraView(mode);
+        eyeTracker.SetEyeTrackerSavinglPath(dataManager.setting.recordPath);
         StartCoroutine(TrialProcess());
     }
     void EndExperiment()
@@ -116,7 +122,8 @@ public class GKT_Experiment : MonoBehaviour
         experimentPage.EndPage();
         mainMenuPage.InitPage();
         settingPage.InitPage();
-        dataManager.record.SaveAllRecord(recordPath);
+        
+        dataManager.record.SaveAllRecord(Path.Combine(recordPath, "record.json"));
     }
 
     IEnumerator TrialProcess()
@@ -127,7 +134,14 @@ public class GKT_Experiment : MonoBehaviour
             // start - press button
             float time = 0;
             InitTrial(currentTrial);
+            eyeTracker.StartCalibration();
+
+            while(!eyeTracker.isCalibrationDone){
+                yield return null;
+            }
+
             //process 
+            eyeTracker.StartRecording();
             while (!isSeeingVisualTarget)
             {
                 if (time >= maxTime) break;
@@ -141,10 +155,12 @@ public class GKT_Experiment : MonoBehaviour
             trialRecord.finishTime = time;
             trialRecord.finalAlpha = maxAlpha * (time / maxTime);
             dataManager.record.addTrialRecord(currentTrial, trialRecord);
+            eyeTracker.PressButton();
 
             //Delay Time : wait for next trial
             currentTrial++;
             yield return new WaitForSeconds(delayTime);
+            eyeTracker.StopRecording();
         }
 
         EndExperiment();

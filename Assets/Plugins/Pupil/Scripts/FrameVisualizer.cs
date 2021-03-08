@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace PupilLabs
 {
+
     public class FrameVisualizer : MonoBehaviour
     {
         public SubscriptionsController subscriptionsController;
@@ -21,6 +21,10 @@ namespace PupilLabs
         byte[][] eyeImageRaw = new byte[2][];
         MeshRenderer[] eyeRenderer = new MeshRenderer[2];
         bool[] eyePublishingInitialized = new bool[2];
+
+        public Texture2D[] getEyeTexture {get{return eyeTexture;}}
+
+        public event InitTextureHandler InitEyeTexture;
 
         void OnEnable()
         {
@@ -93,6 +97,12 @@ namespace PupilLabs
             lastUpdate = Time.time;
 
             eyePublishingInitialized[eyeIndex] = true;
+            
+            //build EyeTracker Event
+            PupilLabsEventArgs event_args = new PupilLabsEventArgs();
+            event_args.eyeIndex = eyeIndex;
+            event_args.eventType = PupilLabsEventArgs.EventType.InitEyeTexture;
+            InitEyeTexture(this, event_args);
         }
 
         MeshRenderer InitializeEyeObject(int eyeIndex, Transform parent)

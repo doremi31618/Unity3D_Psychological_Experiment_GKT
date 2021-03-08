@@ -34,7 +34,7 @@ public class DataManager
             index = 0;
             top_left = "";
             top_right = "";
-            bottom_right ="";
+            bottom_right = "";
             bottom_left = "";
             finishTime = 0;
             finalAlpha = 0;
@@ -100,6 +100,7 @@ public class DataManager
         public string recordPath;
         public string mondrianVideoPath;
         public string visualTargetPath;
+        public string recordFolderPath;
 
         public float delayTime;
         public float maxAlpha;
@@ -112,7 +113,7 @@ public class DataManager
             trialNumber = 7;
 
             mode = 0;
-            recordName = "Subject_001";
+            recordName = "Subject_1";
             recordPath = "";
             mondrianVideoPath = "";
             visualTargetPath = "";
@@ -123,13 +124,14 @@ public class DataManager
 
             mondrianVideoPath = "";
             visualTargetPath = "";
+            recordFolderPath = "";
             recordPath = "";
         }
 
         public override string ToString()
         {
             return JsonUtility.ToJson(this);
-;
+            ;
         }
     }
 
@@ -162,6 +164,7 @@ public class DataManager
         public string recordPath { get { return format.recordPath; } }
         public string mondrianVideoPath { get { return format.mondrianVideoPath; } }
         public string visualTargetPath { get { return format.visualTargetPath; } }
+        public string recordFolderPath { get { return format.recordFolderPath; } }
 
         public float delayTime { get { return format.delayTime; } }
         public float maxAlpha { get { return format.maxAlpha; } }
@@ -179,12 +182,40 @@ public class DataManager
 
             format.mondrianVideoPath = Path.Combine(_filePath, "mondrian");
             format.visualTargetPath = Path.Combine(_filePath, "Visual_target");
-            format.recordPath = Path.Combine(_filePath, "record.json");
+
+            format.recordFolderPath = Path.Combine(_filePath, "Record");
+            Directory.CreateDirectory(format.recordFolderPath);
+            
+
+            
+            format.recordName = "Subject_1";
+            format.recordPath = Path.Combine(format.recordFolderPath, format.recordName);
+
+            CreateRecordFolder();
+        }
+        void CreateRecordFolder(){
+            DirectoryInfo dir = new DirectoryInfo(format.recordPath);
+            
+            if (dir.Exists)
+            {
+                string[] record_name_split = recordName.Split('_');
+                int record_index = int.Parse(record_name_split[1])+ 1;
+                string new_record_name = record_name_split[0] + "_" + record_index;
+                format.recordName = new_record_name;
+                format.recordPath = Path.Combine(recordFolderPath, new_record_name);
+            }else{
+                Directory.CreateDirectory(format.recordPath);
+            }
+
+            WriteSetting(format.recordPath);
+            
         }
 
         public void ChangeSetting(SettingFormat _format)
         {
             format = _format;
+            CreateRecordFolder();
+            WriteSetting(format.recordPath);
             // Debug.Log(_format);
         }
 
@@ -240,7 +271,7 @@ public class DataManager
                 }
                 else if (_filePath == "Default")
                 {
-                    _filePath = Path.Combine(UnityEngine.Application.streamingAssetsPath , "ExperimentSetting_Default.json");
+                    _filePath = Path.Combine(UnityEngine.Application.streamingAssetsPath, "ExperimentSetting_Default.json");
                 }
                 StreamReader sr = new StreamReader(_filePath);
                 string json_format_data = sr.ReadToEnd();
@@ -290,7 +321,8 @@ public class DataManager
                 return mondrianVideoPath[rnd_index];
             }
         }
-        public void ReadSpriteName(){
+        public void ReadSpriteName()
+        {
             foreach (var item in weakeyeImage)
             {
                 Debug.Log(item.name);
@@ -352,9 +384,9 @@ public class DataManager
                         //     Debug.Log(texture.ToString());
                         //     Debug.Log("Texture width : " + texture.width + " , Texture hieght : " + texture.height);
                         // }
-                        
+
                     }
-                    
+
                 }
 
             }
@@ -422,7 +454,8 @@ public class DataManager
         resouce.ReadFile(setting.visualTargetPath, setting.mondrianVideoPath);
     }
 
-    public void SaveSettingChange(SettingFormat format){
+    public void SaveSettingChange(SettingFormat format)
+    {
         setting.ChangeSetting(format);
     }
 }

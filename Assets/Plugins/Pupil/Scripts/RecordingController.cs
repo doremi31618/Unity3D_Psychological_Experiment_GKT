@@ -19,6 +19,7 @@ namespace PupilLabs
         [SerializeField] private bool stopRecording;
 
         public bool IsRecording { get; private set; }
+        public bool isUseKeyboardControl = false;
 
         void OnEnable()
         {
@@ -41,7 +42,7 @@ namespace PupilLabs
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) && isUseKeyboardControl)
             {
                 if (IsRecording)
                 {
@@ -125,7 +126,7 @@ namespace PupilLabs
             customPath = path;
         }
 
-        private string GetRecordingPath()
+        public string GetRecordingPath()
         {
             string path = "";
 

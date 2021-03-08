@@ -28,6 +28,7 @@ namespace PupilLabs
         public event Action OnCalibrationFailed;
         public event Action OnCalibrationSucceeded;
 
+
         //members
         Calibration calibration = new Calibration();
 
@@ -40,6 +41,8 @@ namespace PupilLabs
         List<GameObject> previewMarkers = new List<GameObject>();
 
         bool previewMarkersActive = false;
+
+        public bool isUseKeyboardControl = false;
 
         void OnEnable()
         {
@@ -110,14 +113,19 @@ namespace PupilLabs
                 UpdateCalibration();
             }
 
-            if (Input.GetKeyUp(KeyCode.C))
+            if (isUseKeyboardControl)
             {
-                ToggleCalibration();
+                if (Input.GetKeyUp(KeyCode.C))
+                {
+                    ToggleCalibration();
+                }
+                else if (Input.GetKeyDown(KeyCode.P))
+                {
+                    showPreview = !showPreview;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.P))
-            {
-                showPreview = !showPreview;
-            }
+
+
         }
 
         public void ToggleCalibration()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,10 +83,12 @@ public class SettingPage : Page
         mode.value = setting.mode;
 
         //path
+        
+
         record_name.text = setting.recordName;
         mondrian_video_path.path.text = setting.mondrianVideoPath;
         visual_target_path.path.text = setting.visualTargetPath;
-        record_path.path.text = setting.recordPath;
+        record_path.path.text = setting.recordFolderPath;
     }
 
     
@@ -105,8 +108,8 @@ public class SettingPage : Page
         format.recordName = record_name.text;
         format.mondrianVideoPath = mondrian_video_path.path.text;
         format.visualTargetPath = visual_target_path.path.text;
-        format.recordPath = record_path.path.text;
-
+        format.recordFolderPath = record_path.path.text;
+        format.recordPath = Path.Combine(format.recordFolderPath, format.recordName);
         return format;
     }
 
