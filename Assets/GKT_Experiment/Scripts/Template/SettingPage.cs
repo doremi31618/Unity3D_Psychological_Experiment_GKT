@@ -83,8 +83,6 @@ public class SettingPage : Page
         mode.value = setting.mode;
 
         //path
-        
-
         record_name.text = setting.recordName;
         mondrian_video_path.path.text = setting.mondrianVideoPath;
         visual_target_path.path.text = setting.visualTargetPath;
@@ -147,7 +145,14 @@ public class SettingPage : Page
     public void PreviewVisaulTarget(){
         PageEventArgs page_args = new PageEventArgs();
         page_args.SwitchToPage = PageEventArgs.PageIndex.Preview;
+        LoadResource();
         pageSwitch(this, page_args);
+    }
+
+    public void LoadResource(){
+        DataEventArgs save_setting_args = new DataEventArgs();
+        save_setting_args.eventType = DataEventArgs.EventType.LoadResource;
+        dataEvent(this, save_setting_args);
     }
 
     public void BackToMainMenu(){

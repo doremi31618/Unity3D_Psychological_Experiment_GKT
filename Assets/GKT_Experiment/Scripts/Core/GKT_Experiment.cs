@@ -29,7 +29,8 @@ public class DataEventArgs
         ReadSetting,
         ReadDefaultSetting,
         SaveTrial,
-
+        CreateNewExperiment,
+        LoadResource,
 
     }
     public string info;
@@ -83,7 +84,10 @@ public class GKT_Experiment : MonoBehaviour
         ((SettingPage)settingPage).dataEvent += new DataEventHandler(DataEvent);
         ((SettingPage)settingPage).pageSwitch += new PageSwitchingHandler(PageEvent);
         ((MainMenuPage)mainMenuPage).pageSwitch += new PageSwitchingHandler(PageEvent);
+        ((MainMenuPage)mainMenuPage).dataEvent += new DataEventHandler(DataEvent);
+        
         dataManager = new DataManager();
+        dataManager.ReadSettingFromInput("Default");
     }
 
     /// <summary>
@@ -110,8 +114,7 @@ public class GKT_Experiment : MonoBehaviour
     }
 
     void StartExperiment(){
-        
-        dataManager.LoadResource();
+        //create a new record folder
         visualTarget.SetEyeCameraView(mode);
         eyeTracker.SetEyeTrackerSavinglPath(dataManager.setting.recordPath);
         StartCoroutine(TrialProcess());
@@ -135,19 +138,20 @@ public class GKT_Experiment : MonoBehaviour
             float time = 0;
             InitTrial(currentTrial);
             eyeTracker.StartCalibration();
-
             while(!eyeTracker.isCalibrationDone){
                 yield return null;
             }
 
             //process 
             eyeTracker.StartRecording();
+            visualTarget.InitBeforeTrialStart();
             while (!isSeeingVisualTarget)
             {
                 if (time >= maxTime) break;
                 else time += Time.deltaTime;
 
                 visualTarget.SetImageAlpha(maxAlpha * (time / maxTime));
+                ((MainExperimentPage)experimentPage).UpdateTimebar((time / maxTime));
                 yield return new WaitForEndOfFrame();
             }
 
@@ -180,7 +184,6 @@ public class GKT_Experiment : MonoBehaviour
                 visualTarget.SetEyeCameraView(mode);
                 break;
             case PageEventArgs.PageIndex.Preview:
-                dataManager.LoadResource();
                 previewPage.InitPage(dataManager);
                 break;
             case PageEventArgs.PageIndex.Experiment:
@@ -195,26 +198,33 @@ public class GKT_Experiment : MonoBehaviour
         switch (e.eventType)
         {
             case (DataEventArgs.EventType.SaveSetting):
-                dataManager.SaveCurrentSetting(e.settingFormat);
+                dataManager.SaveSettingChange(e.settingFormat);
                 dataManager.LoadResource();
                 break;
             case (DataEventArgs.EventType.SaveAsSetting):
                 dataManager.SaveAsNewSetting(e.settingFormat);
-                dataManager.LoadResource();
                 break;
             case (DataEventArgs.EventType.ReadSetting):
-                dataManager.ReadSettingFrom();
-                dataManager.LoadResource();
+                //read setting from custom directory
+                dataManager.ReadSetting();
                 settingPage.UpdatePage(dataManager);
                 break;
             case (DataEventArgs.EventType.ReadDefaultSetting):
-                dataManager.ReadDefault();
-                dataManager.LoadResource();
+                //read setting form streammingAssets/ExperimentSetting_Default
+                dataManager.ReadDefaultSetting();
                 settingPage.UpdatePage(dataManager);
                 break;
             case (DataEventArgs.EventType.SaveTrial):
+                //save setting from streammingAssets/ExperimentSetting
                 dataManager.SaveTrial(e.trialIndex, e.trialFormat);
-                
+                break;
+            case (DataEventArgs.EventType.CreateNewExperiment):
+                //create new folder and save Current setting to it
+                dataManager.CreateNewExperiment();
+                break;
+            case (DataEventArgs.EventType.LoadResource):
+                //create new folder and save Current setting to it
+                dataManager.LoadResource();
                 break;
         }
     }

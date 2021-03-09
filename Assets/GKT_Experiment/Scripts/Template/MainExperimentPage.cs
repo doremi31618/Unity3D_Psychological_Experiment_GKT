@@ -30,6 +30,13 @@ public class MainExperimentPage : Page
     {
         
     }
+    /// <summary>
+    /// input 0~1 value and change this by realtime
+    /// </summary>
+    /// <param name="time"></param>
+    public void UpdateTimebar(float time){
+        timeBar.value = time;
+    }
 
     public override void EndPage(){
         base.EndPage();

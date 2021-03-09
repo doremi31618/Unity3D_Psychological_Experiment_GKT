@@ -10,7 +10,7 @@ public class MainMenuPage : Page
     public Button settingButton;
     [Header("Text")]
     public Text version;
-    
+    public event DataEventHandler dataEvent;
     public event PageSwitchingHandler pageSwitch;
     private void Start() {
 
@@ -20,10 +20,30 @@ public class MainMenuPage : Page
         settingButton.onClick.AddListener(ShowSettingPage);
 
     }
+
+    public void enableStartButton(){
+        
+    }
+    public void CreateNewExperiment()
+    {
+        DataEventArgs save_setting_args = new DataEventArgs();
+        save_setting_args.eventType = DataEventArgs.EventType.CreateNewExperiment;
+        dataEvent(this, save_setting_args);
+    }
+
+    public void LoadResource()
+    {
+        DataEventArgs save_setting_args = new DataEventArgs();
+        save_setting_args.eventType = DataEventArgs.EventType.LoadResource;
+        dataEvent(this, save_setting_args);
+    }
+
     void StartExperiment(){
         PageEventArgs page_args = new PageEventArgs();
         page_args.SwitchToPage = PageEventArgs.PageIndex.Experiment;
         pageSwitch(this, page_args);
+        CreateNewExperiment();
+        LoadResource();
         EndPage();
     }
     void ShowSettingPage(){

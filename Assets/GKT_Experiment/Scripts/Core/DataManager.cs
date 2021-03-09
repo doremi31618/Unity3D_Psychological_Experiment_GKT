@@ -73,6 +73,8 @@ public class DataManager
             name = recordname;
 
         }
+
+
         public void addTrialRecord(int index, Trial _data)
         {
             if (trialCollection[index] == null)
@@ -186,36 +188,61 @@ public class DataManager
             format.recordFolderPath = Path.Combine(_filePath, "Record");
             Directory.CreateDirectory(format.recordFolderPath);
             
-
-            
             format.recordName = "Subject_1";
             format.recordPath = Path.Combine(format.recordFolderPath, format.recordName);
 
-            CreateRecordFolder();
         }
-        void CreateRecordFolder(){
-            DirectoryInfo dir = new DirectoryInfo(format.recordPath);
+        string GetLatestRecordFolderPath(){
+            string path = recordFolderPath;
+            DirectoryInfo dir = new DirectoryInfo(path);
+            var dir_folders = dir.GetDirectories();
+            string _recordName = recordName.Split('_')[0];
+            int total = 0;
+            foreach (var folder in dir_folders){
+                if (folder.Name.Split('_')[0] == _recordName){
+                    int index = int.Parse(folder.Name.Split('_')[1]);
+                    total += 1;
+                }
+            }
+            if (total == 0)return null;
+
+            _recordName = _recordName + "_" + total;
+            return Path.Combine( path, _recordName);
+        }
+        
+        public void CreateRecordFolder(){
+            string latest_record_path = GetLatestRecordFolderPath();
+            Debug.Log("latest_record_path : " + latest_record_path);
+            if (latest_record_path == null)
+                latest_record_path = recordPath;
+            DirectoryInfo dir = new DirectoryInfo(latest_record_path);
             
             if (dir.Exists)
             {
-                string[] record_name_split = recordName.Split('_');
-                int record_index = int.Parse(record_name_split[1])+ 1;
-                string new_record_name = record_name_split[0] + "_" + record_index;
-                format.recordName = new_record_name;
-                format.recordPath = Path.Combine(recordFolderPath, new_record_name);
+                Debug.Log("record Directory exist");
+                FileInfo file = new FileInfo(Path.Combine(latest_record_path, "ExperimentSetting.json"));
+
+                //if there is a experiment setting file in the folder , create a new folder and save new setting to it
+                if ( file.Exists){
+                    Debug.Log("Experiment setting exist");
+                    string[] record_name_split = dir.Name.Split('_');
+                    int record_index = int.Parse(record_name_split[1])+ 1;
+                    string new_record_name = record_name_split[0] + "_" + record_index;
+                    format.recordName = new_record_name;
+                    format.recordPath = Path.Combine(format.recordFolderPath, new_record_name);
+                    Directory.CreateDirectory(format.recordPath);
+                }
+                
             }else{
                 Directory.CreateDirectory(format.recordPath);
             }
-
-            WriteSetting(format.recordPath);
-            
+            Debug.Log("record_path : " + format.recordPath);
         }
+        
 
         public void ChangeSetting(SettingFormat _format)
         {
             format = _format;
-            CreateRecordFolder();
-            WriteSetting(format.recordPath);
             // Debug.Log(_format);
         }
 
@@ -271,13 +298,13 @@ public class DataManager
                 }
                 else if (_filePath == "Default")
                 {
-                    _filePath = Path.Combine(UnityEngine.Application.streamingAssetsPath, "ExperimentSetting_Default.json");
+                    _filePath = Path.Combine(UnityEngine.Application.streamingAssetsPath, "ExperimentSetting.json");
                 }
                 StreamReader sr = new StreamReader(_filePath);
                 string json_format_data = sr.ReadToEnd();
 
-                Debug.Log("Read Experiment Setting Success : " + json_format_data);
-                _instance = JsonUtility.FromJson<ExperimentSetting>(json_format_data);
+                Debug.Log("Read Experiment Setting Success from path: " + _filePath);
+                _instance.format = JsonUtility.FromJson<ExperimentSetting>(json_format_data).format;
             }
             catch (Exception ex)
             {
@@ -431,31 +458,63 @@ public class DataManager
     {
         SaveSettingChange(format);
         setting.WriteSetting("");
+        LoadResource();
     }
 
     /// <summary>
-    /// Save Setting to curretn path which is strteamingAssets
+    /// call from GKT_Experiment data event
     /// </summary>
-    public void SaveCurrentSetting(SettingFormat format)
-    {
-        SaveSettingChange(format);
-        setting.WriteSetting("Default");
+    public void ReadDefaultSetting(){
+        ReadDefault();
+        LoadResource();
+    }
+
+    /// <summary>
+    /// Read setting from custom path and load resource
+    /// </summary>
+    public void ReadSetting(){
+       ReadSettingFrom();
+       LoadResource();
+    }
+    public void ReadSettingFromInput(string path){
+        setting.ReadSetting(path);
     }
     public void ReadSettingFrom()
     {
         setting.ReadSetting("");
     }
+
+    /// <summary>
+    /// Read unchangeable setting from /StreammingAssets/ExperimentSetting_Default
+    /// </summary>
     public void ReadDefault()
     {
-        setting.ReadSetting("Default");
+        setting.ReadSetting(Path.Combine(UnityEngine.Application.streamingAssetsPath, "ExperimentSetting_Default.json"));
     }
+
+    /// <summary>
+    /// Load Stimuli resource like visual target and mondrian video
+    /// </summary>
     public void LoadResource()
     {
         resouce.ReadFile(setting.visualTargetPath, setting.mondrianVideoPath);
     }
 
+    /// <summary>
+    /// Create new record folder and save setting to it and set recordPath to new folder directories
+    /// </summary>
+    public void CreateNewExperiment(){
+        setting.CreateRecordFolder();
+        setting.WriteSetting(setting.format.recordPath);
+    }
+    
+    /// <summary>
+    /// save setting to streammingAssets/ ExperimentSetting
+    /// </summary>
+    /// <param name="format"></param>
     public void SaveSettingChange(SettingFormat format)
     {
         setting.ChangeSetting(format);
+        setting.WriteSetting("Default");
     }
 }

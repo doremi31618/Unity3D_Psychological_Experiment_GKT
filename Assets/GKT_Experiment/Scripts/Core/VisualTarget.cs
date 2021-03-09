@@ -13,7 +13,7 @@ public class VisualTarget : MonoBehaviour
 
     [Header("Strong eye setting")]
     public VideoPlayer strongEye_view;
-
+    RawImage strongEye_view_image;
     // the order depends on coounter clockwised
     // index 0 : top-left
     // index 1 : top-right
@@ -62,9 +62,21 @@ public class VisualTarget : MonoBehaviour
 
         if (strongEye_view == null)
             strongEye_view = strongEye_view_parent.GetComponentInChildren<VideoPlayer>();
+        strongEye_view_image = strongEye_view.GetComponent<RawImage>();
+        InitStrongEyeVideoAlpha(0);
+    }
 
+    public void InitStrongEyeVideoAlpha(float alpha){
+        Color video_color = strongEye_view_image.color;
+        strongEye_view_image.color = new Vector4(video_color.r, video_color.g, video_color.b, alpha);
 
     }
+
+    public void InitBeforeTrialStart(){
+        InitStrongEyeVideoAlpha(1);
+
+    }
+
     /// <summary>
     /// Process funtion when start next trial
     /// </summary>
@@ -72,6 +84,11 @@ public class VisualTarget : MonoBehaviour
     /// <param name="_videoPath"></param>
     public void InitTrialSetting(Sprite[] _weakEyeSprite, string _videoPath)
     {
+        //set image color before calibration
+        SetImageAlpha(0);
+        InitStrongEyeVideoAlpha(0);
+
+        //set image and video content before calibration
         SetStrongView(_videoPath);
         SetWeakEyeView(_weakEyeSprite);
     }

@@ -1940,7 +1940,7 @@ MonoBehaviour:
   Title: {fileID: 346964381}
   StrongEyeView: {fileID: 0}
   WeakEyeView: {fileID: 0}
-  timeBar: {fileID: 0}
+  timeBar: {fileID: 388522818}
   pause: {fileID: 0}
   back: {fileID: 0}
 --- !u!1 &1063767454
@@ -3012,6 +3012,86 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: fadeOutTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inSlope
+      value: 0.8516198
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outSlope
+      value: 0.8516198
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].time
+      value: 0.679015
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].value
+      value: 0.20344394
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outWeight
+      value: 0.60032773
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[2].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007042910537338815, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[2].outSlope
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3007042911143951616, guid: 17128c9b4c1b8f54994e2bc0afa6baf4,
         type: 3}
       propertyPath: m_Text
@@ -3408,7 +3488,7 @@ PrefabInstance:
     - target: {fileID: 4474783096826394103, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.08627451
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474783096826394103, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
@@ -3418,7 +3498,7 @@ PrefabInstance:
     - target: {fileID: 4474783097326320736, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.08627451
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474783097326320736, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
@@ -3498,7 +3578,7 @@ PrefabInstance:
     - target: {fileID: 4474783097446213662, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.08627451
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474783097446213662, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
@@ -3510,6 +3590,26 @@ PrefabInstance:
       propertyPath: m_TargetCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 4474783097511690355, guid: 86395a96d00fa6d4baf2d0f954320979,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474783097511690355, guid: 86395a96d00fa6d4baf2d0f954320979,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474783097511690355, guid: 86395a96d00fa6d4baf2d0f954320979,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474783097511690355, guid: 86395a96d00fa6d4baf2d0f954320979,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4474783097511690356, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
       propertyPath: m_Layer
@@ -3563,7 +3663,7 @@ PrefabInstance:
     - target: {fileID: 4474783097965383817, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.08627451
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474783097965383817, guid: 86395a96d00fa6d4baf2d0f954320979,
         type: 3}
