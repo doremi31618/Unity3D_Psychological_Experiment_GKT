@@ -236,7 +236,7 @@ public class DataManager
             }else{
                 Directory.CreateDirectory(format.recordPath);
             }
-            Debug.Log("record_path : " + format.recordPath);
+            // Debug.Log("record_path : " + format.recordPath);
         }
         
 

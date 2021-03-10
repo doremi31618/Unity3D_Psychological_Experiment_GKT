@@ -30,17 +30,17 @@ namespace PupilLabs
 
 
         //members
-        Calibration calibration = new Calibration();
+        protected Calibration calibration = new Calibration();
 
-        int targetIdx;
-        int targetSampleCount;
-        Vector3 currLocalTargetPos;
+        protected int targetIdx;
+        protected int targetSampleCount;
+        protected Vector3 currLocalTargetPos;
 
-        float tLastSample = 0;
-        float tLastTarget = 0;
-        List<GameObject> previewMarkers = new List<GameObject>();
+        protected float tLastSample = 0;
+        protected float tLastTarget = 0;
+        protected List<GameObject> previewMarkers = new List<GameObject>();
 
-        bool previewMarkersActive = false;
+        protected bool previewMarkersActive = false;
 
         public bool isUseKeyboardControl = false;
 
@@ -272,7 +272,7 @@ namespace PupilLabs
             calibration.AddCalibrationPointReferencePosition(refData, time);
         }
 
-        private void UpdatePosition()
+        public virtual void UpdatePosition()
         {
             currLocalTargetPos = targets.GetLocalTargetPosAt(targetIdx);
 
@@ -280,7 +280,7 @@ namespace PupilLabs
             tLastTarget = Time.time;
         }
 
-        private void UpdateMarker()
+        public virtual void UpdateMarker()
         {
             marker.position = camera.transform.localToWorldMatrix.MultiplyPoint(currLocalTargetPos);
             marker.LookAt(camera.transform.position);
@@ -306,7 +306,7 @@ namespace PupilLabs
             }
         }
 
-        void InitPreviewMarker()
+        protected virtual void InitPreviewMarker()
         {
 
             var previewMarkerParent = new GameObject("Calibration Targets Preview");
@@ -328,7 +328,7 @@ namespace PupilLabs
             previewMarkersActive = true;
         }
 
-        void SetPreviewMarkers(bool value)
+        protected virtual void SetPreviewMarkers(bool value)
         {
             foreach (var marker in previewMarkers)
             {

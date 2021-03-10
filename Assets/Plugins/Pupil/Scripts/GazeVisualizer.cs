@@ -17,7 +17,7 @@ namespace PupilLabs
         [Header("Projected Visualization")]
         public Transform projectionMarker;
         public Transform gazeDirectionMarker;
-        [Range(0.01f, 0.1f)]
+        [Range(1f, 200f)]
         public float sphereCastRadius = 0.05f;
 
         Vector3 localGazeDirection;
@@ -174,7 +174,7 @@ namespace PupilLabs
 
             if (Physics.SphereCast(origin, sphereCastRadius, direction, out RaycastHit hit, Mathf.Infinity))
             {
-                Debug.DrawRay(origin, direction * hit.distance, Color.yellow);
+                Debug.DrawRay(origin, direction * hit.distance, Color.blue);
 
                 projectionMarker.position = hit.point;
 
@@ -188,7 +188,7 @@ namespace PupilLabs
             }
             else
             {
-                Debug.DrawRay(origin, direction * 10, Color.white);
+                Debug.DrawRay(origin, direction * 10, Color.red);
             }
         }
 

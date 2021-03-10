@@ -9,7 +9,7 @@ public class VisualTarget : MonoBehaviour
     public GameObject RightEyeCamera;
     public GameObject LeftEyeCamera;
     public LayerMask WeakEyeEyeLayer;
-    public LayerMask  StrongEyeLayer;
+    public LayerMask StrongEyeLayer;
 
     [Header("Strong eye setting")]
     public VideoPlayer strongEye_view;
@@ -66,27 +66,34 @@ public class VisualTarget : MonoBehaviour
         InitStrongEyeVideoAlpha(0);
     }
 
-    public void InitStrongEyeVideoAlpha(float alpha){
+    public void InitStrongEyeVideoAlpha(float alpha)
+    {
         Color video_color = strongEye_view_image.color;
         strongEye_view_image.color = new Vector4(video_color.r, video_color.g, video_color.b, alpha);
 
     }
 
-    public void InitBeforeTrialStart(){
+    public void InitBeforeTrialStart()
+    {
         InitStrongEyeVideoAlpha(1);
 
     }
 
+    public void SetVisaulTargetInvisible()
+    {
+        SetImageAlpha(0);
+        InitStrongEyeVideoAlpha(0);
+    }
+
     /// <summary>
-    /// Process funtion when start next trial
+    /// /// Process funtion when start next trial
     /// </summary>
     /// <param name="_weakEyeSprite"></param>
     /// <param name="_videoPath"></param>
     public void InitTrialSetting(Sprite[] _weakEyeSprite, string _videoPath)
     {
         //set image color before calibration
-        SetImageAlpha(0);
-        InitStrongEyeVideoAlpha(0);
+        SetVisaulTargetInvisible();
 
         //set image and video content before calibration
         SetStrongView(_videoPath);
@@ -99,7 +106,7 @@ public class VisualTarget : MonoBehaviour
     /// <param name="mode"></param>
     public void SetEyeCameraView(int mode)
     {
-        
+
         if (mode == 0)
         {
             ChangeCameraView(LeftEyeCamera.transform, StrongEyeLayer);
@@ -124,7 +131,8 @@ public class VisualTarget : MonoBehaviour
                 alpha);
         }
     }
-    void SetStrongView(string video_url){
+    void SetStrongView(string video_url)
+    {
         strongEye_view.url = video_url;
     }
 
@@ -134,8 +142,10 @@ public class VisualTarget : MonoBehaviour
             weakEye_view[i].sprite = _view[i];
 
     }
-    void ChangeCameraView(Transform parent, LayerMask layerIndex){
-        foreach(var cam in parent.GetComponentsInChildren<Camera>()){
+    void ChangeCameraView(Transform parent, LayerMask layerIndex)
+    {
+        foreach (var cam in parent.GetComponentsInChildren<Camera>())
+        {
             cam.cullingMask = layerIndex;
         }
     }

@@ -12,7 +12,12 @@ namespace PupilLabs
         public float secondsPerTarget = 1f;
         public float ignoreInitialSeconds = 0.1f;
         public int samplesPerTarget = 40;
-
+        public CalibrationMode Mode = CalibrationMode.Default;
+        
+        public enum CalibrationMode{
+            Default,
+            Custom,
+        }
 
         public string PluginName { get { return "HMD3DChoreographyPlugin"; } }
         public string PositionKey { get { return "mm_pos"; } }

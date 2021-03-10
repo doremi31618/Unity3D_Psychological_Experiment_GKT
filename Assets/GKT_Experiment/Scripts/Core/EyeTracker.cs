@@ -136,6 +136,7 @@ public class EyeTracker : MonoBehaviour
     
     public void SetEyeTrackerSavinglPath(string path)
     {
+        recordingController.useCustomPath = true;
         recordingController.SetCustomPath(path);
     }
 

@@ -115,8 +115,10 @@ public class GKT_Experiment : MonoBehaviour
 
     void StartExperiment(){
         //create a new record folder
+        dataManager.CreateNewExperiment();
         visualTarget.SetEyeCameraView(mode);
         eyeTracker.SetEyeTrackerSavinglPath(dataManager.setting.recordPath);
+        Debug.Log("record path : " + dataManager.setting.recordPath);
         StartCoroutine(TrialProcess());
     }
     void EndExperiment()
@@ -125,7 +127,7 @@ public class GKT_Experiment : MonoBehaviour
         experimentPage.EndPage();
         mainMenuPage.InitPage();
         settingPage.InitPage();
-        
+        visualTarget.InitBeforeTrialStart();
         dataManager.record.SaveAllRecord(Path.Combine(recordPath, "record.json"));
     }
 
@@ -220,7 +222,7 @@ public class GKT_Experiment : MonoBehaviour
                 break;
             case (DataEventArgs.EventType.CreateNewExperiment):
                 //create new folder and save Current setting to it
-                dataManager.CreateNewExperiment();
+                
                 break;
             case (DataEventArgs.EventType.LoadResource):
                 //create new folder and save Current setting to it

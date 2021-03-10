@@ -23,7 +23,7 @@ namespace PupilLabs
         bool[] eyePublishingInitialized = new bool[2];
 
         public Texture2D[] getEyeTexture {get{return eyeTexture;}}
-
+        public bool ignoreChange = true;
         public event InitTextureHandler InitEyeTexture;
 
         void OnEnable()
@@ -99,6 +99,7 @@ namespace PupilLabs
             eyePublishingInitialized[eyeIndex] = true;
             
             //build EyeTracker Event
+            if (ignoreChange) return;
             PupilLabsEventArgs event_args = new PupilLabsEventArgs();
             event_args.eyeIndex = eyeIndex;
             event_args.eventType = PupilLabsEventArgs.EventType.InitEyeTexture;
