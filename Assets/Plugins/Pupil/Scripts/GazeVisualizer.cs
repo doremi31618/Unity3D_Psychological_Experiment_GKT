@@ -17,6 +17,11 @@ namespace PupilLabs
         [Header("Projected Visualization")]
         public Transform projectionMarker;
         public Transform gazeDirectionMarker;
+        public Vector3 gazePoint3d {
+            get{
+                return gazeDirectionMarker.position;
+            }
+        }
         [Range(1f, 200f)]
         public float sphereCastRadius = 0.05f;
 
@@ -150,7 +155,6 @@ namespace PupilLabs
             {
                 return;
             }
-
             localGazeDirection = gazeData.GazeDirection;
             gazeDistance = gazeData.GazeDistance;
         }
@@ -188,6 +192,7 @@ namespace PupilLabs
             }
             else
             {
+                gazeDirectionMarker.position = Vector3.zero;
                 Debug.DrawRay(origin, direction * 10, Color.red);
             }
         }

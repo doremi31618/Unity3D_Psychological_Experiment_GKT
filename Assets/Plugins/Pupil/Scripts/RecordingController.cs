@@ -14,11 +14,11 @@ namespace PupilLabs
         [SerializeField] private string customPath;
 
         [Header("Controls")]
-        [SerializeField] private bool recordEyeFrames = true;
-        [SerializeField] private bool startRecording;
-        [SerializeField] private bool stopRecording;
+        [SerializeField] protected bool recordEyeFrames = true;
+        [SerializeField] protected bool startRecording;
+        [SerializeField] protected bool stopRecording;
 
-        public bool IsRecording { get; private set; }
+        public bool IsRecording { get; protected set; }
         public bool isUseKeyboardControl = false;
 
         void OnEnable()
@@ -29,6 +29,9 @@ namespace PupilLabs
                 enabled = false;
                 return;
             }
+            CustomOnEnable();
+        }
+        protected virtual void CustomOnEnable(){
 
         }
 
@@ -67,7 +70,7 @@ namespace PupilLabs
             }
         }
 
-        public void StartRecording()
+        public virtual void StartRecording()
         {
             if (!enabled)
             {
@@ -96,13 +99,15 @@ namespace PupilLabs
                 , { "session_name", path }
                 , { "record_eye",recordEyeFrames}
             });
+
             IsRecording = true;
 
             //abort process on disconnecting
             requestCtrl.OnDisconnecting += StopRecording;
+
         }
 
-        public void StopRecording()
+        public virtual void StopRecording()
         {
             if (!IsRecording)
             {
@@ -116,9 +121,11 @@ namespace PupilLabs
             });
 
             IsRecording = false;
-
             requestCtrl.OnDisconnecting -= StopRecording;
         }
+
+       
+
 
         public void SetCustomPath(string path)
         {

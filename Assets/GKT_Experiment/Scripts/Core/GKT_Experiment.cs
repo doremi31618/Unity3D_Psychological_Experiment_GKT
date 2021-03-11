@@ -55,6 +55,7 @@ public class GKT_Experiment : MonoBehaviour
 
     public Page experimentPage;
     #region Get Setting Data
+    float gapTime { get { return dataManager.setting.gapTime; } }
     float maxTime { get { return dataManager.setting.maxTime; } }
     string recordPath{ get { return dataManager.setting.recordPath; } }
     float maxAlpha  { get { return dataManager.setting.maxAlpha; } }
@@ -67,6 +68,7 @@ public class GKT_Experiment : MonoBehaviour
     #endregion
     #region GKT Experiment Attribute
     int currentTrial = 0;
+    public int trialIndex {get{return currentTrial;}}
     bool isSeeingVisualTarget = false;
     public DataManager.Trial trialRecord;
 
@@ -147,10 +149,21 @@ public class GKT_Experiment : MonoBehaviour
             //process 
             eyeTracker.StartRecording();
             visualTarget.InitBeforeTrialStart();
+            float gapCounter = gapTime;
+            Debug.Log("Time : " + time+" maxTime : "+ maxTime);
             while (!isSeeingVisualTarget)
             {
+                //wait for gap time
+                if (gapCounter > 0){
+                    gapCounter -= Time.deltaTime;
+                    yield return new WaitForEndOfFrame();
+                    continue;
+                }
+
+                //start fadin process  
                 if (time >= maxTime) break;
                 else time += Time.deltaTime;
+                
 
                 visualTarget.SetImageAlpha(maxAlpha * (time / maxTime));
                 ((MainExperimentPage)experimentPage).UpdateTimebar((time / maxTime));
@@ -164,9 +177,9 @@ public class GKT_Experiment : MonoBehaviour
             eyeTracker.PressButton();
 
             //Delay Time : wait for next trial
-            currentTrial++;
             yield return new WaitForSeconds(delayTime);
             eyeTracker.StopRecording();
+            currentTrial++;
         }
 
         EndExperiment();

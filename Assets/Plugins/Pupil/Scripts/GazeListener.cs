@@ -26,7 +26,6 @@ namespace PupilLabs
         void Receive3DGaze(string topic, Dictionary<string, object> dictionary, byte[] thirdFrame = null)
         {
             GazeData gazeData = new GazeData(topic, dictionary);
-
             if (OnReceive3dGaze != null)
             {
                 OnReceive3dGaze(gazeData);
