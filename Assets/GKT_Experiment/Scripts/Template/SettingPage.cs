@@ -28,7 +28,7 @@ public class SettingPage : Page
     public InputField delayTime;
     public InputField trialNumber;
     public InputField maxTime;
-    public InputField maxAlpha;
+    public UnityEngine.UI.Scrollbar maxAlpha;
     public Dropdown mode;
 
     [Header("Path")]
@@ -44,6 +44,11 @@ public class SettingPage : Page
     public UnityEngine.UI.Button saveAs;
     public UnityEngine.UI.Button read;
     public UnityEngine.UI.Button readDefault;
+
+    [Header("Preview")]
+    public GameObject eyePreview;
+    public Text alphaValue;
+    public Image alphaPreview;
 
     //EventHandler 
     public event DataEventHandler dataEvent;
@@ -63,6 +68,22 @@ public class SettingPage : Page
         saveAs.onClick.AddListener(SaveAsSetting);
         read.onClick.AddListener(ReadSetting);
         readDefault.onClick.AddListener(ReadDefaultSetting);
+
+        maxAlpha.onValueChanged.AddListener(UpdateAlphaPreview);
+        mode.onValueChanged.AddListener(UpdateModePreviewImage);
+    }
+    public void UpdateAlphaPreview(float alpha){
+        alphaValue.text = alpha.ToString("0.00");
+        Color img_color = alphaPreview.color;
+        alphaPreview.color = new Vector4(img_color.r, img_color.g, img_color.b, alpha);
+    }
+
+    public void UpdateModePreviewImage(int value){
+        if(value==0)
+            eyePreview.transform.localScale = new Vector3(1, 1, 1);
+        else
+            eyePreview.transform.localScale = new Vector3(-1, 1, 1);
+        
     }
 
     public override void InitPage()
@@ -79,7 +100,7 @@ public class SettingPage : Page
         delayTime.text = setting.delayTime.ToString();
         trialNumber.text = setting.trialNumber.ToString();
         maxTime.text = setting.maxTime.ToString();
-        maxAlpha.text = setting.maxAlpha.ToString();
+        maxAlpha.value = setting.maxAlpha;
         mode.value = setting.mode;
 
         //path
@@ -93,13 +114,14 @@ public class SettingPage : Page
 
     DataManager.SettingFormat UIToFormat()
     {
-        DataManager.SettingFormat format = new DataManager.SettingFormat();
+        DataManager.SettingFormat format = new DataManager.SettingFormat("");
 
         //trial
         format.delayTime = float.Parse(delayTime.text);
         format.trialNumber = int.Parse(trialNumber.text);
         format.maxTime = float.Parse(maxTime.text);
-        format.maxAlpha = float.Parse(maxAlpha.text);
+        format.maxAlpha = maxAlpha.value;
+        format.gapTime = 3f;
         format.mode = mode.value;
 
         //path 

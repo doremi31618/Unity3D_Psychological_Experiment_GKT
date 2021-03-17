@@ -6,6 +6,7 @@ namespace PupilLabs
 {
     public class GazeVisualizer : MonoBehaviour
     {
+    
         public Transform gazeOrigin;
         public GazeController gazeController;
 
@@ -25,19 +26,19 @@ namespace PupilLabs
         [Range(1f, 200f)]
         public float sphereCastRadius = 0.05f;
 
-        Vector3 localGazeDirection;
-        float gazeDistance;
-        bool isGazing = false;
+        protected Vector3 localGazeDirection;
+        protected float gazeDistance;
+        protected bool isGazing = false;
 
-        bool errorAngleBasedMarkerRadius = true;
-        float angleErrorEstimate = 2f;
+        protected bool errorAngleBasedMarkerRadius = true;
+        protected float angleErrorEstimate = 2f;
 
-        Vector3 origMarkerScale;
-        MeshRenderer targetRenderer;
-        float minAlpha = 0.2f;
-        float maxAlpha = 0.8f;
+        protected Vector3 origMarkerScale;
+        protected MeshRenderer targetRenderer;
+        protected float minAlpha = 0.2f;
+        protected float maxAlpha = 0.8f;
 
-        float lastConfidence;
+        protected float lastConfidence;
 
         void OnEnable()
         {
@@ -142,7 +143,7 @@ namespace PupilLabs
             gazeController.OnReceive3dGaze -= ReceiveGaze;
         }
 
-        void ReceiveGaze(GazeData gazeData)
+        protected virtual void ReceiveGaze(GazeData gazeData)
         {
             if (binocularOnly && gazeData.MappingContext != GazeData.GazeMappingContext.Binocular)
             {
@@ -169,7 +170,7 @@ namespace PupilLabs
             }
         }
 
-        void ShowProjected()
+        protected virtual void ShowProjected()
         {
             gazeDirectionMarker.localScale = origMarkerScale;
 

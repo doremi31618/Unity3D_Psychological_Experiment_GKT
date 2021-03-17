@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PupilLabs;
-
+ public enum GazeMode{
+        Right,
+        Left,
+        Both
+    }
 
 
 public class EyeTracker : MonoBehaviour
 {
+    public GazeMode mode;
     [Header("Pupil lab scripts")]
     public RequestController requestController;
     public RecordingController recordingController;
@@ -76,10 +81,14 @@ public class EyeTracker : MonoBehaviour
     /// <summary>
     /// assign setting value to pupil labs
     /// </summary>
-    void InitEyeCamera(Camera cam){
+    void InitEyeCamera(GazeMode mode, Camera cam){
 
         calibrationController.camera = cam;
         gazeVisualizer.gazeOrigin = cam.transform;
+
+        //update gaze mode
+        ((CustomRecordingController)recordingController).SetGazeMode(mode);
+        ((CustomGazeVisaulizer)gazeVisualizer).SetGazeMode(mode);
 
     }
 

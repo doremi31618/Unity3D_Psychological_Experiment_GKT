@@ -5,6 +5,16 @@ using System.IO;
 
 public delegate void PageSwitchingHandler(object sender, PageEventArgs page);
 public delegate void DataEventHandler(object sender, DataEventArgs e);
+public delegate void DeviceEventHandler(DeviceEventArgs e);
+public class DeviceEventArgs
+{
+    public DeviceEventArgs (bool vr, bool eyeTracker){
+        isVRConnected = vr;
+        isEyeTrackerConnected = eyeTracker;
+    }
+    public bool isVRConnected;
+    public bool isEyeTrackerConnected;
+}
 
 public class PageEventArgs
 {
@@ -14,7 +24,9 @@ public class PageEventArgs
         MainMenu,
         Setting,
         Preview,
-        Experiment
+        Experiment_start,
+        Experiment_initTrial,
+        Experiment_ending
     }
     public PageIndex SwitchToPage;
 
@@ -42,18 +54,23 @@ public class DataEventArgs
 
 }
 
+
 public class GKT_Experiment : MonoBehaviour
 {
-    public static float version = 1.0f;
+    public enum ExperimentStage{
+        Calibration,
+        DelayStart,
+        Processing,
+        DelayEnd,
+        None
+    }
+    public ExperimentStage stage = ExperimentStage.None;
+    public static float version = 1.1f;
     DataManager dataManager;
     public VisualTarget visualTarget;
     public EyeTracker eyeTracker;
-    [Header("Page")]
-    public Page settingPage;
-    public Page previewPage;
-    public Page mainMenuPage;
-
     public Page experimentPage;
+
     #region Get Setting Data
     float gapTime { get { return dataManager.setting.gapTime; } }
     float maxTime { get { return dataManager.setting.maxTime; } }
@@ -71,6 +88,9 @@ public class GKT_Experiment : MonoBehaviour
     public int trialIndex {get{return currentTrial;}}
     bool isSeeingVisualTarget = false;
     public DataManager.Trial trialRecord;
+    public DataManager GetDataManager{get{return dataManager;}}
+    public event PageSwitchingHandler pageSwitch;
+    Coroutine experimentProcessing = null;
 
     #endregion
     void Start()
@@ -82,12 +102,6 @@ public class GKT_Experiment : MonoBehaviour
     /// </summary>
     void InitializeExperiment()
     {
-        // internal value
-        ((SettingPage)settingPage).dataEvent += new DataEventHandler(DataEvent);
-        ((SettingPage)settingPage).pageSwitch += new PageSwitchingHandler(PageEvent);
-        ((MainMenuPage)mainMenuPage).pageSwitch += new PageSwitchingHandler(PageEvent);
-        ((MainMenuPage)mainMenuPage).dataEvent += new DataEventHandler(DataEvent);
-        
         dataManager = new DataManager();
         dataManager.ReadSettingFromInput("Default");
     }
@@ -98,7 +112,10 @@ public class GKT_Experiment : MonoBehaviour
     /// <param name="index"></param>
     void InitTrial(int index)
     {
-        experimentPage.InitPage(currentTrial);
+        PageEventArgs page_event_args = new PageEventArgs();
+        page_event_args.SwitchToPage = PageEventArgs.PageIndex.Experiment_initTrial;
+        pageSwitch(this, page_event_args);
+        
         Sprite[] target_sprite = dataManager.resouce.getTrialImage(index);
         visualTarget.InitTrialSetting(target_sprite, videoUrl);
         trialRecord = new DataManager.Trial();
@@ -115,20 +132,33 @@ public class GKT_Experiment : MonoBehaviour
 
     }
 
-    void StartExperiment(){
+    public void ResetExperiment(){
+        visualTarget.SetEyeCameraView(mode);
+    }
+
+    public void StartExperiment(){
         //create a new record folder
         dataManager.CreateNewExperiment();
         visualTarget.SetEyeCameraView(mode);
         eyeTracker.SetEyeTrackerSavinglPath(dataManager.setting.recordPath);
         Debug.Log("record path : " + dataManager.setting.recordPath);
-        StartCoroutine(TrialProcess());
+        experimentProcessing = StartCoroutine(TrialProcess());
     }
+    public void StopExperiment(){
+        StopCoroutine(experimentProcessing);
+        PageEventArgs _page_event_args = new PageEventArgs();
+        _page_event_args.SwitchToPage = PageEventArgs.PageIndex.Experiment_ending;
+        pageSwitch(this, _page_event_args);
+    }
+
     void EndExperiment()
     {
         Debug.Log("save record : " + dataManager.record.ToString());
-        experimentPage.EndPage();
-        mainMenuPage.InitPage();
-        settingPage.InitPage();
+
+        PageEventArgs _page_event_args = new PageEventArgs();
+        _page_event_args.SwitchToPage = PageEventArgs.PageIndex.Experiment_ending;
+        pageSwitch(this, _page_event_args);
+
         visualTarget.InitBeforeTrialStart();
         dataManager.record.SaveAllRecord(Path.Combine(recordPath, "record.json"));
     }
@@ -137,11 +167,12 @@ public class GKT_Experiment : MonoBehaviour
     {
         while (currentTrial < trialNumber)
         {
-
             // start - press button
             float time = 0;
             InitTrial(currentTrial);
+            stage = ExperimentStage.Calibration;
             eyeTracker.StartCalibration();
+            
             while(!eyeTracker.isCalibrationDone){
                 yield return null;
             }
@@ -150,10 +181,12 @@ public class GKT_Experiment : MonoBehaviour
             eyeTracker.StartRecording();
             visualTarget.InitBeforeTrialStart();
             float gapCounter = gapTime;
-            Debug.Log("Time : " + time+" maxTime : "+ maxTime);
+
             while (!isSeeingVisualTarget)
             {
                 //wait for gap time
+                if (gapCounter == gapTime)
+                    stage = ExperimentStage.DelayStart;
                 if (gapCounter > 0){
                     gapCounter -= Time.deltaTime;
                     yield return new WaitForEndOfFrame();
@@ -161,6 +194,9 @@ public class GKT_Experiment : MonoBehaviour
                 }
 
                 //start fadin process  
+                if (time == 0)
+                    stage = ExperimentStage.Processing;
+
                 if (time >= maxTime) break;
                 else time += Time.deltaTime;
                 
@@ -175,6 +211,7 @@ public class GKT_Experiment : MonoBehaviour
             trialRecord.finalAlpha = maxAlpha * (time / maxTime);
             dataManager.record.addTrialRecord(currentTrial, trialRecord);
             eyeTracker.PressButton();
+            stage = ExperimentStage.DelayEnd;
 
             //Delay Time : wait for next trial
             yield return new WaitForSeconds(delayTime);
@@ -182,33 +219,13 @@ public class GKT_Experiment : MonoBehaviour
             currentTrial++;
         }
 
+        stage = ExperimentStage.None;
         EndExperiment();
 
 
     }
 
-    void PageEvent(object sender, PageEventArgs e)
-    {
-        switch (e.SwitchToPage)
-        {
-            case PageEventArgs.PageIndex.Setting:
-                settingPage.InitPage();
-                settingPage.UpdatePage(dataManager);
-                break;
-            case PageEventArgs.PageIndex.MainMenu:
-                visualTarget.SetEyeCameraView(mode);
-                break;
-            case PageEventArgs.PageIndex.Preview:
-                previewPage.InitPage(dataManager);
-                break;
-            case PageEventArgs.PageIndex.Experiment:
-                experimentPage.InitPage(currentTrial);
-                StartExperiment();
-                break;
-        }
-    }
-
-    void DataEvent(object sender, DataEventArgs e)
+    public void DataEvent(object sender, DataEventArgs e)
     {
         switch (e.eventType)
         {
@@ -216,23 +233,26 @@ public class GKT_Experiment : MonoBehaviour
                 dataManager.SaveSettingChange(e.settingFormat);
                 dataManager.LoadResource();
                 break;
+
             case (DataEventArgs.EventType.SaveAsSetting):
                 dataManager.SaveAsNewSetting(e.settingFormat);
                 break;
+
             case (DataEventArgs.EventType.ReadSetting):
                 //read setting from custom directory
                 dataManager.ReadSetting();
-                settingPage.UpdatePage(dataManager);
                 break;
+
             case (DataEventArgs.EventType.ReadDefaultSetting):
                 //read setting form streammingAssets/ExperimentSetting_Default
                 dataManager.ReadDefaultSetting();
-                settingPage.UpdatePage(dataManager);
                 break;
+
             case (DataEventArgs.EventType.SaveTrial):
                 //save setting from streammingAssets/ExperimentSetting
                 dataManager.SaveTrial(e.trialIndex, e.trialFormat);
                 break;
+
             case (DataEventArgs.EventType.CreateNewExperiment):
                 //create new folder and save Current setting to it
                 
@@ -248,9 +268,9 @@ public class GKT_Experiment : MonoBehaviour
     /// </summary>
     private void OnGUI()
     {
-        string info = JsonUtility.ToJson(dataManager.setting);
-        Rect SettingInfo = new Rect(0, 0, 1920, 1080);
-        GUI.Label(SettingInfo, info);
+        // string info = JsonUtility.ToJson(dataManager.setting);
+        // Rect SettingInfo = new Rect(0, 0, 1920, 1080);
+        // GUI.Label(SettingInfo, info);
     }
 
 }

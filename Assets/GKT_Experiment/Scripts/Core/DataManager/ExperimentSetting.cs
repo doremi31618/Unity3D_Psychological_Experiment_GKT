@@ -5,7 +5,7 @@ using System.Threading;
 using System.IO;
 using System.Windows.Forms;
 using UnityEngine;
-using UnityEngine.Video;
+using PupilLabs;
 
 public partial class DataManager
 {
@@ -26,28 +26,44 @@ public partial class DataManager
         public float maxAlpha;
         public float maxTime;
         public float gapTime;
+        public List<CustomCalibration.SquareTarget> calibrationFormat;
 
         // The Initial value
-        public SettingFormat(float _version)
+        public SettingFormat(string _filePath)
         {
-            version = _version;
+            version = GKT_Experiment.version;
+
             trialNumber = 7;
-
-            mode = 0;
-            recordName = "Subject_1";
-            recordPath = "";
-            mondrianVideoPath = "";
-            visualTargetPath = "";
-
             gapTime = 3f;
             delayTime = 3f;
             maxAlpha = 0.5f;
             maxTime = 60f;
+            mode = 0;
 
-            mondrianVideoPath = "";
-            visualTargetPath = "";
-            recordFolderPath = "";
-            recordPath = "";
+            recordName = "Subject_1";
+            if (_filePath != "")
+            {
+
+                recordFolderPath = Path.Combine(_filePath, "Record");
+                recordPath = Path.Combine(recordFolderPath, recordName);
+                Directory.CreateDirectory(recordFolderPath);
+
+                mondrianVideoPath = Path.Combine(_filePath, "mondrian");
+                visualTargetPath = Path.Combine(_filePath, "Visual_target");
+            }
+            else
+            {
+                recordFolderPath = "";
+                recordPath = "";
+
+                mondrianVideoPath = "";
+                visualTargetPath = "";
+            }
+
+
+
+
+            calibrationFormat = Resources.Load<CustomCalibration>("CalibrationData/CustomCalibrationTargets").squares;
         }
 
         public override string ToString()
@@ -92,74 +108,78 @@ public partial class DataManager
         public float maxAlpha { get { return format.maxAlpha; } }
         public float maxTime { get { return format.maxTime; } }
         public float gapTime { get { return format.gapTime; } }
+        public List<CustomCalibration.SquareTarget> calibrationFormat { get { return format.calibrationFormat; } }
 
         //alpha rate = maxAlpha/maxTime
 
         // setting default value
         public ExperimentSetting(string _filePath)
         {
+
+            InitExperimentSetting(_filePath);
+        }
+        public void InitExperimentSetting(string _filePath)
+        {
             if (_filePath == "Default")
                 _filePath = UnityEngine.Application.streamingAssetsPath;
 
-            format = new SettingFormat(GKT_Experiment.version);
-
-            format.mondrianVideoPath = Path.Combine(_filePath, "mondrian");
-            format.visualTargetPath = Path.Combine(_filePath, "Visual_target");
-
-            format.recordFolderPath = Path.Combine(_filePath, "Record");
-            Directory.CreateDirectory(format.recordFolderPath);
-            
-            format.recordName = "Subject_1";
-            format.recordPath = Path.Combine(format.recordFolderPath, format.recordName);
-
+            format = new SettingFormat(_filePath);
         }
-        string GetLatestRecordFolderPath(){
+
+        string GetLatestRecordFolderPath()
+        {
             string path = recordFolderPath;
             DirectoryInfo dir = new DirectoryInfo(path);
             var dir_folders = dir.GetDirectories();
             string _recordName = recordName.Split('_')[0];
             int total = 0;
-            foreach (var folder in dir_folders){
-                if (folder.Name.Split('_')[0] == _recordName){
+            foreach (var folder in dir_folders)
+            {
+                if (folder.Name.Split('_')[0] == _recordName)
+                {
                     int index = int.Parse(folder.Name.Split('_')[1]);
                     total += 1;
                 }
             }
-            if (total == 0)return null;
+            if (total == 0) return null;
 
             _recordName = _recordName + "_" + total;
-            return Path.Combine( path, _recordName);
+            return Path.Combine(path, _recordName);
         }
-        
-        public void CreateRecordFolder(){
+
+        public void CreateRecordFolder()
+        {
             string latest_record_path = GetLatestRecordFolderPath();
             Debug.Log("latest_record_path : " + latest_record_path);
             if (latest_record_path == null)
                 latest_record_path = recordPath;
             DirectoryInfo dir = new DirectoryInfo(latest_record_path);
-            
+
             if (dir.Exists)
             {
                 Debug.Log("record Directory exist");
                 FileInfo file = new FileInfo(Path.Combine(latest_record_path, "ExperimentSetting.json"));
 
                 //if there is a experiment setting file in the folder , create a new folder and save new setting to it
-                if ( file.Exists){
+                if (file.Exists)
+                {
                     Debug.Log("Experiment setting exist");
                     string[] record_name_split = dir.Name.Split('_');
-                    int record_index = int.Parse(record_name_split[1])+ 1;
+                    int record_index = int.Parse(record_name_split[1]) + 1;
                     string new_record_name = record_name_split[0] + "_" + record_index;
                     format.recordName = new_record_name;
                     format.recordPath = Path.Combine(format.recordFolderPath, new_record_name);
                     Directory.CreateDirectory(format.recordPath);
                 }
-                
-            }else{
+
+            }
+            else
+            {
                 Directory.CreateDirectory(format.recordPath);
             }
             // Debug.Log("record_path : " + format.recordPath);
         }
-        
+
 
         public void ChangeSetting(SettingFormat _format)
         {

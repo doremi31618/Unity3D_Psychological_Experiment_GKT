@@ -14,7 +14,7 @@ public class MainMenuPage : Page
     public event PageSwitchingHandler pageSwitch;
     private void Start() {
 
-        version.text = GKT_Experiment.version.ToString();
+        version.text = "version : " + GKT_Experiment.version.ToString();
 
         startButton.onClick.AddListener(StartExperiment);
         settingButton.onClick.AddListener(ShowSettingPage);
@@ -40,7 +40,7 @@ public class MainMenuPage : Page
 
     void StartExperiment(){
         PageEventArgs page_args = new PageEventArgs();
-        page_args.SwitchToPage = PageEventArgs.PageIndex.Experiment;
+        page_args.SwitchToPage = PageEventArgs.PageIndex.Experiment_start;
         pageSwitch(this, page_args);
         CreateNewExperiment();
         LoadResource();
