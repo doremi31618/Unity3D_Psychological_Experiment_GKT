@@ -18,14 +18,14 @@ if you need analize the exporting data , you shold check the format introduction
 
 ## View-Preview
 ![Title](img/title_preview.jpg)
-![Checking](img/Checking_preview.jpg)
+![Checking](img/checking_preview.jpg)
 ![MainMenu](img/mainmenu_preview.jpg)
 
 ### Setting
 ![Setting](img/setting_preview.jpg)
 
 ### Experiment
-![Experiment](img/experiment_preview.jpg)
+![Experiment](img/Experiment_preview.jpg)
 
 **1. page intro :**
 
