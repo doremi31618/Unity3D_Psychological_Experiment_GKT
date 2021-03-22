@@ -2,51 +2,59 @@
 
 ## intro - English
 
-This is a GKT (Guilty Knowledge Test) Experiment integrate with Unity3D , VR and PupilLab
+This is a GKT (Guilty Knowledge Test) Experiment project integrate with Unity3D ,
+VR and PupilLab
 
 #### 1. Dev documentation : [(link)](#Developent)
 
-if you are **Unity developer** and want to add some new features , you can see the overview page
+if you are **Unity developer** and want to add some new features ,
+you can see the overview page
 
 #### 2. Data format intro : [(link)](#Format)
 
-if you need analize the exporting data , you shold check the format introduction of data which created by program
+if you need to analize the exporting data,
+you shold check the format introduction of data which created by program
 
 #### 3. Preview : [(link)](#View-Preview)
+
+check the program preview to get a better understanding of experiment flow
 
 
 
 ## View-Preview
 <h3>Title</h3>
 <p align="center">
-  <img width="460" height="306" src="img/title_preview.jpg">
+  <img width="100%" src="img/title_preview.jpg">
 </p>
 
 <h3>Checking Device</h3>
 <p align="center">
-  <img width="460" height="306" src="img/checking_preview.jpg">
+  <img width="100%" src="img/checking_preview.jpg">
 </p>
 
-In this section you will need to check if the HTC Vive has already settle down and open the pupil capture software 
+In this section you will need to check if all the device has settele down . 
+first you need to finished the HTC Vive environment setting ,
+next you will need to open the pupil capture software 
+to get connect with 
 
 <h3>Main Menu</h3>
 <p align="center">
-  <img width="460" height="306" src="img/mainmenu_preview.jpg">
+  <img width="100%" src="img/mainmenu_preview.jpg">
 </p>
 
 <h3>Setting</h3>
 <p align="center">
-    <img width="460" height="306" src="img/setting_preview.jpg">
+    <img width="100%" src="img/setting_preview.jpg">
 </P>
 
 <h3>Experiment</h3>
 <p align="center">
-  <img width="460" height="306" src="img/Experiment_preview.jpg">
+  <img width="100%" src="img/Experiment_preview.jpg">
 </p>
 
 **1. page intro :**
 
-At this page you can check Experiment processing (time bar) and what the subject see and also the eye frame visualizer.
+At this page you can check the time sapn with (time bar) and the view what the subject see also the eye frame visualizer.
 
 **2. Weak Eye and Strong Eye :**  
 
@@ -64,12 +72,18 @@ both can be found at StreammingAssets path
 
 * PupilLab Calibration (only execute at very first time) 
 * Data Optimize Calibration
-* Start Delay
+* Start Delay : modify the time length 
 * FadeIn
 * End Delay
 
 
 
 ## Developent
+
+the program can be split to three parts
+
+1. GKT-Experiment : control the experiment process
+2. GameManager : Control the UI Event and the interface between GKT-Experiment and GUI Page
+3. EyeTracker : 
 
 ## Format
