@@ -17,18 +17,30 @@ if you need analize the exporting data , you shold check the format introduction
 
 
 ## View-Preview
+### Title
 <p align="center">
-  <img width="460" height="300" src="http://www.fillmurray.com/460/300">
+  <img width="460" height="306" src="img/title_preview.jpg">
 </p>
-![Title](img/title_preview.jpg)
-![Checking](img/checking_preview.jpg)
-![MainMenu](img/mainmenu_preview.jpg)
+
+### Checking Device
+<p align="center">
+  <img width="460" height="306" src="img/checking_preview.jpg">
+</p>
+
+### Main menu
+<p align="center">
+  <img width="460" height="306" src="img/mainmenu_preview.jpg">
+</p>
 
 ### Setting
-![Setting](img/setting_preview.jpg)
+<p align="center">
+    <img width="460" height="306" src="img/Experiment_preview.jpg">
+</P>
 
 ### Experiment
-![Experiment](img/Experiment_preview.jpg)
+<p align="center">
+  <img width="460" height="306" src="img/Experiment_preview.jpg">
+</p>
 
 **1. page intro :**
 
