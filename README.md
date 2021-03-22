@@ -17,27 +17,29 @@ if you need analize the exporting data , you shold check the format introduction
 
 
 ## View-Preview
-### Title
+<h3>Title</h3>
 <p align="center">
   <img width="460" height="306" src="img/title_preview.jpg">
 </p>
 
-### Checking Device
+<h3>Checking Device</h3>
 <p align="center">
   <img width="460" height="306" src="img/checking_preview.jpg">
 </p>
 
-### Main menu
+In this section you will need to check if the HTC Vive has already settle down and open the pupil capture software 
+
+<h3>Main Menu</h3>
 <p align="center">
   <img width="460" height="306" src="img/mainmenu_preview.jpg">
 </p>
 
-### Setting
+<h3>Setting</h3>
 <p align="center">
-    <img width="460" height="306" src="img/Experiment_preview.jpg">
+    <img width="460" height="306" src="img/setting_preview.jpg">
 </P>
 
-### Experiment
+<h3>Experiment</h3>
 <p align="center">
   <img width="460" height="306" src="img/Experiment_preview.jpg">
 </p>
