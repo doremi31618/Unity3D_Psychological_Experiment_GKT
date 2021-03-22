@@ -17,6 +17,9 @@ if you need analize the exporting data , you shold check the format introduction
 
 
 ## View-Preview
+<p align="center">
+  <img width="460" height="300" src="http://www.fillmurray.com/460/300">
+</p>
 ![Title](img/title_preview.jpg)
 ![Checking](img/checking_preview.jpg)
 ![MainMenu](img/mainmenu_preview.jpg)
