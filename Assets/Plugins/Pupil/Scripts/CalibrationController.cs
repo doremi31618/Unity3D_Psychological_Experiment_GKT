@@ -33,6 +33,7 @@ namespace PupilLabs
         protected Calibration calibration = new Calibration();
 
         protected int targetIdx;
+        public int getTargetIndex{get {return targetIdx;}}
         protected int targetSampleCount;
         protected Vector3 currLocalTargetPos;
 

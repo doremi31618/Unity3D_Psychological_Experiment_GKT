@@ -14,7 +14,7 @@ public class PreviewPage : Page
         if (Content == null)
             Content = transform.Find("Content").gameObject;
     }
-    public override void InitPage(DataManager dataManager)
+    public void InitPage(string previewPath, DataManager dataManager)
     {
         base.InitPage();
         int trialNumber = dataManager.setting.trialNumber;
@@ -29,7 +29,7 @@ public class PreviewPage : Page
             GameObject preview = Instantiate(PreviewPrefabs);
 
             string name = "Trial " + (i + 1);
-            preview.transform.parent = Content.transform;
+            preview.transform.SetParent(Content.transform);
             preview.name = name;
 
             PreviewFormat previewContent = preview.GetComponent<PreviewFormat>();

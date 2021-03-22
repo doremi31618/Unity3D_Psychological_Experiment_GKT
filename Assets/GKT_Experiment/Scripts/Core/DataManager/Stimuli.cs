@@ -37,6 +37,7 @@ public partial class DataManager
         public Sprite[] getTrialImage(int trial)
         {
             Sprite[] trial_image = weakeyeImage.SubArray(trial * 4, 4);
+
             return trial_image;
         }
         public string getMondrianVideoPath
@@ -95,9 +96,10 @@ public partial class DataManager
 
                     DirectoryInfo trialFolder = new DirectoryInfo(dChild.FullName);
                     var files = trialFolder.GetFiles("*.png");
+                    if(files.Length != 4)
+                        Debug.LogError("file missing, did you miss img in the folder " + dChild.Name);
                     foreach (var png in files)
                     {
-                        // Debug.Log(png.Name);
                         byte[] bytes = File.ReadAllBytes(png.FullName);
 
                         Texture2D texture = new Texture2D(1, 1);
@@ -107,10 +109,6 @@ public partial class DataManager
                             new Rect(0, 0, texture.width, texture.height),
                             new Vector2(0.5f, 0.5f));
                         weakeyeImage[index++].name = png.Name;
-                        // if(weakeyeImage == null){
-                        //     Debug.Log(texture.ToString());
-                        //     Debug.Log("Texture width : " + texture.width + " , Texture hieght : " + texture.height);
-                        // }
 
                     }
 

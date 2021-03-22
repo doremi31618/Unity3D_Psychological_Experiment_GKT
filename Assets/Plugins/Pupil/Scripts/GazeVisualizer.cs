@@ -23,7 +23,7 @@ namespace PupilLabs
                 return gazeDirectionMarker.position;
             }
         }
-        [Range(1f, 200f)]
+        [Range(0.01f, 0.5f)]
         public float sphereCastRadius = 0.05f;
 
         protected Vector3 localGazeDirection;

@@ -13,10 +13,12 @@ public class CustomRecordingController : RecordingController
         public float confidence;
         public double pupilTimeStamp;
         public Vector3 gazePoint3d;
-        public Vector3 eyeCenter0, eyeCenter1;
-        public Vector3 gazeNormal0, gazeNormal1;
+        public Vector3 standardCalibrationPoint;
+        // public Vector3 eyeCenter0, eyeCenter1;
+        // public Vector3 gazeNormal0, gazeNormal1;
         
     }
+    public EyeTracker eyeTracker;
     [HideInInspector]public GazeMode mode;
     public SubscriptionsController subscriptionsController;
     public GazeVisualizer gazeVisualizer;
@@ -80,35 +82,38 @@ public class CustomRecordingController : RecordingController
         new_GazeData.mode = mode;
         new_GazeData.stage = gkt_experiment_data.stage;
         new_GazeData.confidence = gazeData.Confidence;
-
+        new_GazeData.standardCalibrationPoint = eyeTracker.getCurrentCalibrationPoint;
         new_GazeData.gazePoint3d = gazeVisualizer.gazePoint3d;
         new_GazeData.pupilTimeStamp = gazeData.PupilTimestamp;
 
-        new_GazeData.eyeCenter0 = gazeData.EyeCenter0;
-        new_GazeData.eyeCenter1 = gazeData.EyeCenter1;
+        // new_GazeData.eyeCenter0 = gazeData.EyeCenter0;
+        // new_GazeData.eyeCenter1 = gazeData.EyeCenter1;
         
-        new_GazeData.gazeNormal0 = gazeData.GazeNormal0;
-        new_GazeData.gazeNormal1 = gazeData.GazeNormal1;
+        // new_GazeData.gazeNormal0 = gazeData.GazeNormal0;
+        // new_GazeData.gazeNormal1 = gazeData.GazeNormal1;
 
         gazeDataCollection.Add(new_GazeData);
     }
 
     public void ExtractGazeData()
     {
-        string csv_content = "mode,stage,Confidence,gazePoint3d,PupilTimestamp\n";
-        StreamWriter sw = new StreamWriter(Path.Combine(GetRecordingPath(), "Trial" + gkt_experiment_data.trialIndex + "_GazePositions.csv"));
+        string csv_content = "mode,stage,Confidence,gazePoint3d,standardCalibrationPoint,PupilTimestamp\n";
+        string path = Path.Combine(GetRecordingPath(), "Trial" + gkt_experiment_data.trialIndex + "_GazePositions.csv");
+        StreamWriter sw = new StreamWriter(path);
         foreach (var gaze in gazeDataCollection)
         {
-            csv_content += string.Format("{0},{1},{2},{3},{4}\n",
+            csv_content += string.Format("{0},{1},{2},{3},{4},{5}\n",
                  gaze.mode,
                  gaze.stage,
                  gaze.confidence,
                  gaze.gazePoint3d.x+" "+gaze.gazePoint3d.y+" "+gaze.gazePoint3d.z,
+                 gaze.standardCalibrationPoint.x+" "+gaze.standardCalibrationPoint.y+" "+gaze.standardCalibrationPoint.z,
                  gaze.pupilTimeStamp
             );
         }
         sw.Write(csv_content);
         sw.Close();
+        Debug.Log("Extract GazeData to "+path);
     }
 
     public override void StopRecording()

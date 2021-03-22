@@ -3,28 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PupilLabs;
- public enum GazeMode{
-        Right,
-        Left,
-        Both
-    }
+public enum GazeMode
+{
+    Right,
+    Left,
+    Both
+}
 
 
 public class EyeTracker : MonoBehaviour
 {
+    public int pupilCalibrationRunTime = 0;
+    public bool IsUsePupilCalibration{get{return pupilCalibrationRunTime < 1;}}
     public GazeMode mode;
     [Header("Pupil lab scripts")]
     public RequestController requestController;
-    public RecordingController recordingController;
+    public CustomRecordingController recordingController;
     public FrameVisualizer frameVisualizer;
-    public GazeVisualizer gazeVisualizer;
-    public CalibrationController calibrationController;
+    public CustomGazeVisaulizer gazeVisualizer;
+    public CustomCalibrationController calibrationController;
+    public OptimizeCalibrationController customCalibrationController;
+
     // [Header("Recording Data")]
-    public string savingPath{
-        get{
+    public string savingPath
+    {
+        get
+        {
             return recordingController.GetRecordingPath();
         }
-        set{
+        set
+        {
             recordingController.SetCustomPath(value);
         }
     }
@@ -36,59 +44,69 @@ public class EyeTracker : MonoBehaviour
     [Header("Render Eye Frame Visualizer")]
     [Tooltip("below Eye Tracker's canvas ")]
     public RawImage[] eyeFrameVisaulizer;
-    public Texture2D[] getEyeTexture{
-        get{
-           return frameVisualizer.getEyeTexture;
+    public Texture2D[] getEyeTexture
+    {
+        get
+        {
+            return frameVisualizer.getEyeTexture;
         }
     }
 
-    bool isConnected {
-        get{
+    bool isConnected
+    {
+        get
+        {
             return requestController.IsConnected;
         }
     }
 
     bool isCalibrationRoutineDone = false;
-    public bool isCalibrationDone {
-        get{return isCalibrationRoutineDone;}
+    public bool isCalibrationDone
+    {
+        get { return isCalibrationRoutineDone; }
     }
+    int calibrationIndex { get { return customCalibrationController.getTargetIndex; } }
+    CalibrationTargets targets { get { return customCalibrationController.targets; } }
+    public Vector3 getCurrentCalibrationPoint { get { return (IsUsePupilCalibration)?Vector3.zero:targets.GetLocalTargetPosAt(calibrationIndex); } }
 
-    void Awake(){
+    void Awake()
+    {
         Setup();
     }
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 
     /// <summary>
     /// assigning attribute
     /// </summary>
-    void Setup()
+    public void Setup()
     {
         recordingController.useCustomPath = true;
         frameVisualizer.InitEyeTexture += new InitTextureHandler(UpdateEyeTexture);
 
-        calibrationController.OnCalibrationRoutineDone += CalibrationStatus;
+        calibrationController.OnCalibrationRoutineDone += OnCalibrationRoutineDone;
     }
 
     /// <summary>
     /// assign setting value to pupil labs
     /// </summary>
-    void InitEyeCamera(GazeMode mode, Camera cam){
+    public void InitEyeCamera(GazeMode _mode)
+    {
 
-        calibrationController.camera = cam;
-        gazeVisualizer.gazeOrigin = cam.transform;
-
+        // calibrationController.camera = cam;
+        // gazeVisualizer.gazeOrigin = cam.transform;
+        mode = _mode;
         //update gaze mode
-        ((CustomRecordingController)recordingController).SetGazeMode(mode);
-        ((CustomGazeVisaulizer)gazeVisualizer).SetGazeMode(mode);
+        recordingController.SetGazeMode(mode);
+        gazeVisualizer.SetGazeMode(mode);
 
     }
 
@@ -105,21 +123,34 @@ public class EyeTracker : MonoBehaviour
     }
 
     /// <summary>
-    /// Start calibration
+    /// Start pupil calibration
     /// </summary>
-    public void StartCalibration(){
-        
+    public void StartCalibration()
+    {
+
         calibrationController.StartCalibration();
+        pupilCalibrationRunTime += 1;
         isCalibrationRoutineDone = false;
     }
-    void CalibrationStatus(){
+
+    /// <summary>
+    /// start data optimize calibration
+    /// </summary>
+    public void StartCustomCalibration(){
+        customCalibrationController.StartCalibration();
+        pupilCalibrationRunTime += 1;
+        isCalibrationRoutineDone = false;
+    }
+    void OnCalibrationRoutineDone()
+    {
         isCalibrationRoutineDone = true;
     }
 
     /// <summary>
     /// manage recording 
     /// </summary>
-    public void StartRecording(){
+    public void StartRecording()
+    {
         recordingController.StartRecording();
         SendTimeStamp("start record", new Dictionary<string, object>());
     }
@@ -127,7 +158,8 @@ public class EyeTracker : MonoBehaviour
     /// <summary>
     /// process when subject see the target and press button
     /// </summary>
-    public void PressButton(){
+    public void PressButton()
+    {
         SendTimeStamp("press button", new Dictionary<string, object>());
     }
     void SendTimeStamp(string labelName, Dictionary<string, object> userInfo)
@@ -138,15 +170,22 @@ public class EyeTracker : MonoBehaviour
     /// <summary>
     /// stop recording 
     /// </summary>
-    public void StopRecording(){
+    public void StopRecording()
+    {
         recordingController.StopRecording();
         SendTimeStamp("stop record", new Dictionary<string, object>());
     }
-    
+
     public void SetEyeTrackerSavinglPath(string path)
     {
         recordingController.useCustomPath = true;
         recordingController.SetCustomPath(path);
     }
+
+    public void ResetCalibrationRunTime(){
+        pupilCalibrationRunTime = 0;
+    }
+
+    
 
 }

@@ -28,6 +28,7 @@ public class SettingPage : Page
     public InputField delayTime;
     public InputField trialNumber;
     public InputField maxTime;
+    public InputField gapTime;
     public UnityEngine.UI.Scrollbar maxAlpha;
     public Dropdown mode;
 
@@ -100,6 +101,7 @@ public class SettingPage : Page
         delayTime.text = setting.delayTime.ToString();
         trialNumber.text = setting.trialNumber.ToString();
         maxTime.text = setting.maxTime.ToString();
+        gapTime.text = setting.gapTime.ToString();
         maxAlpha.value = setting.maxAlpha;
         mode.value = setting.mode;
 
@@ -108,6 +110,9 @@ public class SettingPage : Page
         mondrian_video_path.path.text = setting.mondrianVideoPath;
         visual_target_path.path.text = setting.visualTargetPath;
         record_path.path.text = setting.recordFolderPath;
+
+        UpdateAlphaPreview(setting.maxAlpha);
+        UpdateModePreviewImage(setting.mode);
     }
 
     
@@ -120,6 +125,7 @@ public class SettingPage : Page
         format.delayTime = float.Parse(delayTime.text);
         format.trialNumber = int.Parse(trialNumber.text);
         format.maxTime = float.Parse(maxTime.text);
+        format.gapTime = float.Parse(gapTime.text);
         format.maxAlpha = maxAlpha.value;
         format.gapTime = 3f;
         format.mode = mode.value;
@@ -167,6 +173,7 @@ public class SettingPage : Page
     public void PreviewVisaulTarget(){
         PageEventArgs page_args = new PageEventArgs();
         page_args.SwitchToPage = PageEventArgs.PageIndex.Preview;
+        page_args.info = visual_target_path.path.text;
         LoadResource();
         pageSwitch(this, page_args);
     }
@@ -181,7 +188,7 @@ public class SettingPage : Page
         this.gameObject.SetActive(false);
         PageEventArgs page_args = new PageEventArgs();
         page_args.SwitchToPage = PageEventArgs.PageIndex.MainMenu;
-        SaveSetting();
+        // SaveSetting();
         pageSwitch(this, page_args);
     }
 

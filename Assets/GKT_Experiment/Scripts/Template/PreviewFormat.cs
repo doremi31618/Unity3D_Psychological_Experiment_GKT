@@ -17,6 +17,10 @@ public class PreviewFormat : MonoBehaviour
         top_right.sprite = imgs[1];
         bottom_right.sprite = imgs[2];
         bottom_left.sprite = imgs[3];
+        for(int i=0; i<imgs.Length; i++){
+            if (imgs[i]==null)
+                Debug.LogError("[PreviewFormat]" + _title+ "-"+ (i+1) + " image not found " );
+        }
     }
 
 }

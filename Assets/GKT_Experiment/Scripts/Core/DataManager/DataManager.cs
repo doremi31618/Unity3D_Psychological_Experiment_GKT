@@ -105,12 +105,4 @@ public partial class DataManager
         setting.ChangeSetting(format);
         setting.WriteSetting("Default");
     }
-
-    public void StartRecordingGazeData(GazeData gazeData){
-
-    }
-
-    public void StopRecordingGazeData(){
-        
-    }
 }

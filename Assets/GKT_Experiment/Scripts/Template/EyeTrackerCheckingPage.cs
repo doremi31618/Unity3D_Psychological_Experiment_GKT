@@ -8,19 +8,24 @@ public class EyeTrackerCheckingPage : Page
     public Text vr_status;
     public Text eyeTracker_status;
     public Button exit;
-    public event PageSwitchingHandler pageEvent;
+    // public event PageSwitchingHandler pageEvent;
 
 
     void Start()
     {
         exit.interactable = false;
+        exit.onClick.AddListener(CloseCheckingWindow);
         vr_status.text = "VR status : not connect";
-        eyeTracker_status.text = "Eye Tracker status : mot connected";
+        eyeTracker_status.text = "Eye Tracker status : not connected";
+        
     }
 
     private void OnEnable()
     {
        
+    }
+    void CloseCheckingWindow(){
+        this.gameObject.SetActive(false);
     }
     
     public void UpdateDeviceStatus(bool vr_connect, bool eyeTracker_connect)
@@ -29,7 +34,7 @@ public class EyeTrackerCheckingPage : Page
         else vr_status.text = "VR status : not connect";
 
         if (eyeTracker_connect) eyeTracker_status.text = "Eye Tracker status : connect";
-        else eyeTracker_status.text = "Eye Tracker status : mot connected";
+        else eyeTracker_status.text = "Eye Tracker status : not connected";
 
         if (vr_connect && eyeTracker_connect)
             exit.interactable = true;

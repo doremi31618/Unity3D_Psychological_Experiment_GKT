@@ -7,13 +7,10 @@ public class MainExperimentPage : Page
 {
     [Header("Experiment Relate")]
     public Text Title;
-    public Image StrongEyeView;
-    public Image WeakEyeView;
+    // public Image StrongEyeView;
+    // public Image WeakEyeView;
     public Scrollbar timeBar;
-    [Header("Control Button")]
-    public Button pause;
-    public Button back;
-
+    public Text time_preview;
     public event PageSwitchingHandler pageSwitch;
 
     void Start(){
@@ -34,8 +31,9 @@ public class MainExperimentPage : Page
     /// input 0~1 value and change this by realtime
     /// </summary>
     /// <param name="time"></param>
-    public void UpdateTimebar(float time){
+    public void UpdateTimebar(float time, float unityTime){
         timeBar.value = time;
+        time_preview.text = unityTime.ToString();
     }
 
     public override void EndPage(){

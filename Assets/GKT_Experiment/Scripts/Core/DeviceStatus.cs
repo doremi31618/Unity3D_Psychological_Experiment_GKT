@@ -7,40 +7,49 @@ public class DeviceStatus : MonoBehaviour
 {
     public RequestController requestController;
     public event DeviceEventHandler deviceEvent;
-    private bool vr_status;
-    private bool eyeTracker_status;
-    public bool isVRConnect{get {return vr_status;}}
-    public bool isEyeTrackerConnect{get {return eyeTracker_status;}}
+    [SerializeField]private bool vr_status;
+    [SerializeField]private bool eyeTracker_status;
+    public bool isVRConnect { get { return vr_status; } }
+    public bool isEyeTrackerConnect { get { return eyeTracker_status; } }
 
-    void Start(){
-        SteamVR_Events.DeviceConnected.AddListener(OnViveConnect);
+    void Awake()
+    {
+        SteamVR_Events.Initialized.AddListener(OnViveConnect);
         requestController.OnConnected += OnPupilLabsConnected;
         requestController.OnDisconnecting += OnPupilLabsDisconected;
     }
-    void OnViveConnect(int index, bool status){
-        if (index == 0){
-            vr_status =status;
+    void Update()
+    {
+        if (!vr_status)
+        {
+            vr_status = OpenVR.System.GetTrackedDeviceActivityLevel(0) == EDeviceActivityLevel.k_EDeviceActivityLevel_Standby ||
+                        OpenVR.System.GetTrackedDeviceActivityLevel(0) == EDeviceActivityLevel.k_EDeviceActivityLevel_UserInteraction||
+                        OpenVR.System.GetTrackedDeviceActivityLevel(0) == EDeviceActivityLevel.k_EDeviceActivityLevel_Idle;
+            DeviceStatusChange();
         }
+    }
+
+    
+    void OnViveConnect(bool status)
+    {
+        vr_status = status;
         DeviceStatusChange();
     }
 
-    void OnPupilLabsConnected(){
+    void OnPupilLabsConnected()
+    {
         eyeTracker_status = true;
         DeviceStatusChange();
     }
-    void OnPupilLabsDisconected(){
+    void OnPupilLabsDisconected()
+    {
         eyeTracker_status = false;
         DeviceStatusChange();
     }
 
-    void DeviceStatusChange(){
-        DeviceEventArgs device_event = new DeviceEventArgs(vr_status, eyeTracker_status);
-        deviceEvent(device_event);
-    }
-
-    // Update is called once per frame
-    void Update()
+    void DeviceStatusChange()
     {
-        
+        DeviceEventArgs device_event = new DeviceEventArgs(isVRConnect, isEyeTrackerConnect);
+        deviceEvent(device_event);
     }
 }

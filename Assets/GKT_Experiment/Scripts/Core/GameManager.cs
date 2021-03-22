@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
         ((MainMenuPage)mainMenuPage).pageSwitch += new PageSwitchingHandler(PageEvent);
         ((MainMenuPage)mainMenuPage).dataEvent += new DataEventHandler(gkt_experiment.DataEvent);
         ((MainMenuPage)mainMenuPage).dataEvent += new DataEventHandler(DataEvent);
+
+        gkt_experiment.pageSwitch += new PageSwitchingHandler(PageEvent);
         
         deviceStatus.deviceEvent += new DeviceEventHandler(OnDeviceStatusChange);
 
@@ -57,7 +59,9 @@ public class GameManager : MonoBehaviour
     }
 
     void OnDeviceStatusChange(DeviceEventArgs e){
-       ((EyeTrackerCheckingPage)deviceCheckingPage).UpdateDeviceStatus(e.isVRConnected, e.isEyeTrackerConnected);
+        Debug.Log("Update Device Status");
+        if(deviceCheckingPage.gameObject.activeSelf)
+            ((EyeTrackerCheckingPage)deviceCheckingPage).UpdateDeviceStatus(e.isVRConnected, e.isEyeTrackerConnected);
     }
 
     void PageEvent(object sender, PageEventArgs e)
@@ -70,11 +74,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case PageEventArgs.PageIndex.MainMenu:
-                gkt_experiment.ResetExperiment();
+                gkt_experiment.InitExperiment();
                 break;
 
             case PageEventArgs.PageIndex.Preview:
-                previewPage.InitPage(gkt_experiment.GetDataManager);
+                ((PreviewPage)previewPage).InitPage(e.info, gkt_experiment.GetDataManager);
                 break;
 
             case PageEventArgs.PageIndex.Experiment_start:
