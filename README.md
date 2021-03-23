@@ -27,7 +27,7 @@ check the program preview to get a better understanding of experiment flow
 
 ### Hardware Requirements
 
-1. Add HTC Add-on to your vive 
+<h4> 1.  Add HTC Add-on to your vive </h4>
 
 -- **vive** -- 
  * Step 1 : [Tutorial video](https://www.youtube.com/watch?v=Yu5XwwUHJKg)
@@ -41,22 +41,23 @@ check the program preview to get a better understanding of experiment flow
 
 * Step 1 : [Tutorial video](https://www.youtube.com/watch?v=ZRdWlmxBH30&t=28s)
 
-2. HTC vive installation
-
-you can follow up this tutorial or just open the environment setting at SteamVR
-
+<h4> 2. HTC vive installation </h4>
+<p>
+you can follow up this tutorial (<a href=https://support.steampowered.com/steamvr/HTC_Vive/>link</a>)
+or just open the environment setting at SteamVR 
+</p>
 
 ### Software Requirements
 
-1. HTC Vive setting 
+<h4>1. HTC Vive setting </h4>
   
 please take a look at official tutorial from VIVE ([link](https://www.vive.com/tw/support/vive/category_howto/setting-up-for-the-first-time.html))
 
-2. pupil lab capture
+<h4>2. pupil lab capture</h4>
   
-Because most of core function of this program base on the Pupil capture service ,  
-you will need to open pupil capture and make sure you have correctly connect 
-HMD Add-on directly to computer
+Because most of core function of this program is based on the Pupil capture service ,  
+you will need to open pupil capture and make sure you have already correctly connect 
+HMD Add-on directly to computer.
 
 ## View-Preview
 <h3>Title</h3>
@@ -68,10 +69,7 @@ HMD Add-on directly to computer
 <p align="center">
   <img width="100%" src="img/checking_preview.jpg">
 </p>
-
-
   
-
 In this section you will need to check if all the device has settele down.  
 first you need to finished the HTC Vive environment setting,  
 next you will need to open the pupil capture software to get connect with  
