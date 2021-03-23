@@ -71,16 +71,15 @@ HMD Add-on directly to computer.
   <img width="100%" src="img/checking_preview.jpg">
 </p>
 
-<h4>Before step into experiment!!!</h4>
+<h4>Before step into experiment, there something you need to prepare</h4>
 <p>In this section you will need to check if all the device has settele down.</p>
 <p>
-first you need to finished the HTC Vive environment setting. 
-next you will need to open the pupil capture software to get connect with.
-</p>
-<p>
+Step1 : finished the HTC Vive environment setting. <br>
+Step2 : open the pupil capture software to get connect with. <br>
 if you haven't finish the environment setting you can back to the 
-tutorial here ([link](#SettingEnvironment))
+<a href="#SettingEnvironment">tutorial</a>
 </p>
+
 
 <h3>Main Menu</h3>
 <p align="center">
@@ -193,8 +192,9 @@ both can be found at StreammingAssets path
 
 
 
-## Format
+<h2> Devlopment </h2>
 
+<h3> Program overview </h3>
 the program can be split to three parts
 
 1. GKT-Experiment : control the experiment process
@@ -202,6 +202,9 @@ the program can be split to three parts
 3. EyeTracker : 
   * Custom plug-in
   * Pupil HMD Scripts : [link](https://github.com/pupil-labs/hmd-eyes/blob/master/docs/Developer.md#getting-started)
+
+
+<h3>Technical detail</h3>
 
 <h2>Format</h2>
 <h3>1. Experinment Setting : (JSON)<h3>
@@ -255,6 +258,5 @@ the program can be split to three parts
 <h3>4. Pupil Export Data :</h3>
 <p> Check the pupil document (<a href="https://docs.pupil-labs.com/developer/core/recording-format/">link</a>)</p>
 
-## Development
 
-<h3>Technical detail</h3>
+
