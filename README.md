@@ -92,17 +92,7 @@ if you haven't finish the environment setting you can back to the
 </P>
 <h4>Terminology of setting page (and its defalut value) </h4>
 
-1. gapTime (3): the start delay time before fade-in process 
-2. maxTime (10): the time span of fade-in process
-3. delayTime (1): the end delay time before end this trial
-4. maxAlpha (0.5): the maximum alpha value that subject would see , you can see the preview on the right side
-5. mode (0): choose which eye is subject's weak eye , mode 0 is the right side ande mode 1 is the left side
-6. mondrian video path (./Assets/StreamingAssets/Mondrian): the folder path that mondrian videos locate
-7. visual target (./Assets/StreamingAssets/Visual_target): the folder path that visual_target "folders" locate
-8. record path (Desktop): the folder that will auto saving every experiment record
-9. record name (Subject_1): the name of record folder , the index of the end would auto increment if the system detect there exist a previous record
-10. weak eye : the eye that system would auto track and records, this eye will see the visual target
-11. strong eye : this eye will see the mondrian video
+please refer to [Setting Format](#Format)
 
 <h4> Record Data Structure </h4>
 <p>
@@ -208,27 +198,24 @@ the program can be split into three parts
 
 <h2>Format</h2>
 <h3>1. Experinment Setting : (JSON)</h3>
-<p>
+<ul>
+  <li>gapTime (3): the start delay time before fade-in process </li>
+  <li>maxTime (10): the time span of fade-in process</li>
+  <li>delayTime (1): the end delay time before end this trial</li>
+  <li>maxAlpha (0.5): the maximum alpha value that subject would see , you can see the preview on the right side</li>
+  <li>mode (0): choose which eye is subject's weak eye , mode 0 is the right side ande mode 1 is the left side</li>
+  <li>mondrian video path (./Assets/StreamingAssets/Mondrian): the folder path that mondrian videos locate</li>
+  <li>visual target (./Assets/StreamingAssets/Visual_target): the folder path that visual_target "folders" locate</li>
+  <li>record path (Desktop): the folder that will auto saving every experiment record</li>
+  <li>record name (Subject_1): the name of record folder , the index of the end would auto increment if the system detect there exist a previous record</li>
+  <li>weak eye : the eye that system would auto track and records, this eye will see the visual target</li>
+  <li>strong eye : this eye will see the mondrian video</li>
+  <li>Calibration Data Format(List, Class : Square Target)
   <ul>
-    <li>gapTime : the index of experiment</li>
-    <li>maxTime: the top-left image name</li>
-    <li>delayTime : the top-right image name</li>
-    <li>maxAlpha : the bottom-right image name</li>
-    <li>trialNumber : the bottom-right image name</li>
-    <li>mode : The Recording time span when subject's weak eye saw the visual targets</li>
-    <li>mondrian_video_path : The alpha value when subject saw the visual target</li>
-    <li>visual_target_path : The alpha value when subject saw the visual target</li>
-    <li>recordName</li>
-    <li>recordPath</li>
-    <li>recordFolderPath</li>
-    <li>Calibration Data Format(List, Class : Square Target)
-      <ul>
-        <li>Rect (xPos,yPos,width,height)</li>
-        <li>zPos</li>
-      </ul>
-    </li>
-  </ul>
-</p>
+    <li>Rect (xPos,yPos,width,height)</li>
+    <li>zPos</li>
+  </ul></li>
+</ul>
 
 <h3>2. Experiment Record : (JSON)</h3>
 <p>
