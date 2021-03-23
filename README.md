@@ -195,13 +195,13 @@ both can be found at StreammingAssets path
 <h2> Devlopment </h2>
 
 <h3> Program overview </h3>
-the program can be split to three parts
+the program can be split into three parts
 
 1. GKT-Experiment : control the experiment process
 2. GameManager : Control the UI Event and the interface between GKT-Experiment and GUI Page
 3. EyeTracker : 
   * Custom plug-in
-  * Pupil HMD Scripts : [link](https://github.com/pupil-labs/hmd-eyes/blob/master/docs/Developer.md#getting-started)
+  * [Pupil HMD API](https://github.com/pupil-labs/hmd-eyes/blob/master/docs/Developer.md#getting-started)
 
 
 <h3>Technical detail</h3>
