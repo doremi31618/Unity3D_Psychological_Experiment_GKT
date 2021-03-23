@@ -4,30 +4,35 @@
   <img width="100%" src="img/title_preview.jpg">
 </p>
 
-## intro - English
-
+<h2> Intro - English </h2>
+<p>
 This is a GKT (Guilty Knowledge Test) Experiment project integrate with Unity3D ,
-VR and PupilLab
+VR and PupilLab. 
+  <ul>
+    <li>For more information about Unity3D : (<a href="https://www.google.com/search?q=Unity3D&oq=Unity3D+&aqs=chrome..69i57j0j69i60l3j69i65l3.2267j0j4&sourceid=chrome&ie=UTF-8">link</a>)</li>
+    <li>For more information about VR (OpenVR) : (<a href="https://docs.unity3d.com/560/Documentation/Manual/VRDevices-OpenVR.html">link</a>)</li>
+    <li>For more information about Pupil Lab : (<a href="https://pupil-labs.com/">link</a>)</li>
+  </ul>
+</p>
 
-#### 1. Dev documentation : [(link)](#Developent)
+<h3>1. Dev documentation : (<a href="#Development">link</a>)</h3>
+<p>
+  if you are <b>Unity developer</b> and want to add some new features ,
+you can see the Development part
+</p>
 
-if you are **Unity developer** and want to add some new features ,
-you can see the overview page
+### 2. Data format intro : [(link)](#Format)
 
-#### 2. Data format intro : [(link)](#Format)
-
-if you need to analize the exporting data,
+  if you need to analize the exporting data,
 you shold check the format introduction of data which created by program
 
-#### 3. Preview : [(link)](#View-Preview)
+### 3. Preview : [(link)](#View-Preview)
 
 check the program preview to get a better understanding of experiment flow
 
 ## SettingEnvironment 
 
-### Hardware Requirements
-
-<h4> 1.  Add HTC Add-on to your vive </h4>
+<h3> Add HTC Add-on to your vive </h3>
 
 -- **vive** -- 
  * Step 1 : [Tutorial video](https://www.youtube.com/watch?v=Yu5XwwUHJKg)
@@ -37,29 +42,25 @@ check the program preview to get a better understanding of experiment flow
  * Step 5 : Resemble it 
   
   
--- **vive pro** --
+-- **vive pro** -- [Tutorial video](https://www.youtube.com/watch?v=ZRdWlmxBH30&t=28s)
 
-* Step 1 : [Tutorial video](https://www.youtube.com/watch?v=ZRdWlmxBH30&t=28s)
-
-<h4> 2. HTC vive installation </h4>
+<h3> HTC vive installation </h3>
 <p>
 you can follow up this tutorial (<a href=https://support.steampowered.com/steamvr/HTC_Vive/>link</a>)
 or just open the environment setting at SteamVR 
 </p>
 
-### Software Requirements
-
-<h4>1. HTC Vive setting </h4>
+<h3>HTC Vive setting </h3>
   
 please take a look at official tutorial from VIVE ([link](https://www.vive.com/tw/support/vive/category_howto/setting-up-for-the-first-time.html))
 
-<h4>2. pupil lab capture</h4>
+<h3>pupil lab capture</h3>
   
 Because most of core function of this program is based on the Pupil capture service ,  
 you will need to open pupil capture and make sure you have already correctly connect 
 HMD Add-on directly to computer.
 
-## View-Preview
+<h2>View-Preview</h2>
 <h3>Title</h3>
 <p align="center">
   <img width="100%" src="img/title_preview.jpg">
@@ -87,11 +88,14 @@ tutorial here ([link](#SettingEnvironment))
 <p align="center">
     <img width="100%" src="img/setting_preview.jpg">
 </P>
+
 ### Terminology
+
 1. gapTime :
 2. maxTime : 
 3. delayTime :
-4. 
+4. maxAlpha : 
+5. mode : 
 
 <h3>Experiment</h3>
 <p align="center">
@@ -124,7 +128,7 @@ both can be found at StreammingAssets path
 
 
 
-## Developent
+## Development
 
 the program can be split to three parts
 
@@ -134,13 +138,54 @@ the program can be split to three parts
   * Custom plug-in
   * Pupil HMD Scripts : [link](https://github.com/pupil-labs/hmd-eyes/blob/master/docs/Developer.md#getting-started)
 
-## Format
+<h2>Format</h2>
+<h3>1. Experinment Setting : (JSON)<h3>
+<p>
+  <ul>
+    <li>gapTime : the index of experiment</li>
+    <li>maxTime: the top-left image name</li>
+    <li>delayTime : the top-right image name</li>
+    <li>maxAlpha : the bottom-right image name</li>
+    <li>trialNumber : the bottom-right image name</li>
+    <li>mode : The Recording time span when subject's weak eye saw the visual targets</li>
+    <li>mondrian_video_path : The alpha value when subject saw the visual target</li>
+    <li>visual_target_path : The alpha value when subject saw the visual target</li>
+    <li>recordName</li>
+    <li>recordPath</li>
+    <li>recordFolderPath</li>
+    <li>Calibration Data Format(List, Class : Square Target)
+      <ul>
+        <li>Rect (xPos,yPos,width,height)</li>
+        <li>zPos</li>
+      </ul>
+    </li>
+  </ul>
+</p>
 
-1. Experinment Setting :
+<h3>2. Experiment Record : (JSON)<h3>
+<p>
+  <ul>
+    <li>index : the index of experiment</li>
+    <li>top-left : the top-left image name</li>
+    <li>top-right : the top-right image name</li>
+    <li>bottom-left : the bottom-right image name</li>
+    <li>bottom-right : the bottom-right image name</li>
+    <li>finishTime : The Recording time span when subject's weak eye saw the visual targets</li>
+    <li>finalAlpha : The alpha value when subject saw the visual target</li>
+  </ul>
+</p>
 
-2. Experiment Record :
+<h3>3. Gaze Data (CSV): </h3>
+<p>
+  <ul>
+    <li>confidence : the posibility that pupil lab think it is correct data</li>
+    <li>GazeMode : which eye is been record, 0 means right eye , 1 means left eye</li>
+    <li>gazePoint3d : the mapping data from eye ball to visual target</li>
+    <li>pupilTimeStamp</li>
+    
+  </ul>
+</p>
 
-3. Gaze Data : 
-
-4. Pupil Export Data : Check the pupil document ([link](https://docs.pupil-labs.com/developer/core/recording-format/))
+<h3>4. Pupil Export Data :</h3>
+<p> Check the pupil document (<a href="https://docs.pupil-labs.com/developer/core/recording-format/">link</a>)</p>
 
