@@ -4,7 +4,7 @@
   <img width="100%" src="img/title_preview.jpg">
 </p>
 
-<h2> Intro - English </h2>
+<h2> Intro - English ver.1.1 </h2>
 <p>
 This is a GKT (Guilty Knowledge Test) Experiment project integrate with Unity3D ,
 VR and PupilLab. 
