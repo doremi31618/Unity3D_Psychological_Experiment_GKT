@@ -207,7 +207,7 @@ the program can be split into three parts
 <h3>Technical detail</h3>
 
 <h2>Format</h2>
-<h3>1. Experinment Setting : (JSON)<h3>
+<h3>1. Experinment Setting : (JSON)</h3>
 <p>
   <ul>
     <li>gapTime : the index of experiment</li>
@@ -230,7 +230,7 @@ the program can be split into three parts
   </ul>
 </p>
 
-<h3>2. Experiment Record : (JSON)<h3>
+<h3>2. Experiment Record : (JSON)</h3>
 <p>
   <ul>
     <li>index : the index of experiment</li>
