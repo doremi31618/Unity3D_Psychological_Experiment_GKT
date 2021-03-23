@@ -70,14 +70,17 @@ HMD Add-on directly to computer.
 <p align="center">
   <img width="100%" src="img/checking_preview.jpg">
 </p>
-  
-In this section you will need to check if all the device has settele down.  
-first you need to finished the HTC Vive environment setting,  
-next you will need to open the pupil capture software to get connect with  
 
+<h4>Before step into experiment!!!</h4>
+<p>In this section you will need to check if all the device has settele down.</p>
+<p>
+first you need to finished the HTC Vive environment setting. 
+next you will need to open the pupil capture software to get connect with.
+</p>
+<p>
 if you haven't finish the environment setting you can back to the 
 tutorial here ([link](#SettingEnvironment))
-
+</p>
 
 <h3>Main Menu</h3>
 <p align="center">
@@ -88,14 +91,76 @@ tutorial here ([link](#SettingEnvironment))
 <p align="center">
     <img width="100%" src="img/setting_preview.jpg">
 </P>
+<h4>Terminology of setting page (and its defalut value) </h4>
 
-### Terminology
+1. gapTime (3): the start delay time before fade-in process 
+2. maxTime (10): the time span of fade-in process
+3. delayTime (1): the end delay time before end this trial
+4. maxAlpha (0.5): the maximum alpha value that subject would see , you can see the preview on the right side
+5. mode (0): choose which eye is subject's weak eye , mode 0 is the right side ande mode 1 is the left side
+6. mondrian video path (./Assets/StreamingAssets/Mondrian): the folder path that mondrian videos locate
+7. visual target (./Assets/StreamingAssets/Visual_target): the folder path that visual_target "folders" locate
+8. record path (Desktop): the folder that will auto saving every experiment record
+9. record name (Subject_1): the name of record folder , the index of the end would auto increment if the system detect there exist a previous record
+10. weak eye : the eye that system would auto track and records, this eye will see the visual target
+11. strong eye : this eye will see the mondrian video
 
-1. gapTime :
-2. maxTime : 
-3. delayTime :
-4. maxAlpha : 
-5. mode : 
+<h4> Record Data Structure </h4>
+<p>
+for more information please check <a href="#Format">format</a><br>
+  - recordFolder<br>
+  &ensp;|-ExperimentSetting.json <br>
+  &ensp;|-record.json  <br>
+  &ensp;|-001  <br>
+  &ensp;&ensp;|-pupil lab reocrd  <br>
+  &ensp;|-002  <br>
+  &ensp;...  <br>
+  &ensp;|-Trial1.csv  <br>
+  &ensp;|-Trial2.csv  <br>
+  &ensp;...  <br>
+</p>
+
+<h4> How to set custom visual target </h4>
+<p>
+  first you need to know is the name is matter,
+  each folder means each trial of experiment
+  each image have a position in visual target
+  
+  <p>1. Folder name influence order of experiment : <a href="Assets/StreamingAssets/Visual_target">reference</a>
+    <br>
+    Please Remember the folder name should start with "Trial" ,
+    The computer only reconize the folder which name is start with "Trial" !!!
+    these will determine the order of visual target set that subject see 
+    </br>
+  </p>
+  
+   <p>2. Image is sort in alphabetical order
+    <br>
+    The image name is also important. Because the position of visual target that 
+    subject see in the vr is depend on the order of image 
+    </br>
+    take example : 
+    <br>
+      the mapping positions of <a href="Assets/StreamingAssets/Visual_target/Trial1">reference<a/> is like below
+    </br>
+   
+   <ul>
+    <li>axe : top-left (1st)</li>
+    <li>bastinbrush : top-right (2nd)</li>
+    <li>boxcutter03a : bottom-right(3rd)</li>
+    <li>broom : bottom-left(4th)</li>
+   </ul>
+   <p>
+  </p>
+   
+    
+  
+  Key point : 
+  <blockquote>
+  1. the order of folder : In alphabetical order
+  <br>2. the image name influence order and the order influence image position</br>
+  </blockquote>
+</p>
 
 <h3>Experiment</h3>
 <p align="center">
@@ -121,14 +186,14 @@ both can be found at StreammingAssets path
 **3. Experiment Stage :**
 
 * PupilLab Calibration (only execute at very first time) 
-* Data Optimize Calibration 
-* Start Delay : modify the time length 
+* Data Optimize Calibration : this stage will collect the gaze data that subject gaze calibration point
+* Start Delay : the stage that before fadin stage 
 * FadeIn
 * End Delay
 
 
 
-## Development
+## Format
 
 the program can be split to three parts
 
@@ -181,6 +246,7 @@ the program can be split to three parts
     <li>confidence : the posibility that pupil lab think it is correct data</li>
     <li>GazeMode : which eye is been record, 0 means right eye , 1 means left eye</li>
     <li>gazePoint3d : the mapping data from eye ball to visual target</li>
+    <li>standardCalibrationPoint : the position of calibration point in 3d space</li>
     <li>pupilTimeStamp</li>
     
   </ul>
@@ -189,3 +255,6 @@ the program can be split to three parts
 <h3>4. Pupil Export Data :</h3>
 <p> Check the pupil document (<a href="https://docs.pupil-labs.com/developer/core/recording-format/">link</a>)</p>
 
+## Development
+
+<h3>Technical detail</h3>
