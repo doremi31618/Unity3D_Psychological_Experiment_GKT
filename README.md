@@ -116,7 +116,9 @@ the original version, don't worry there are four features you might want to use
   </p>
   
    <p><b>2. Image is sort in alphabetical order</b> <br>
+  <p align="center">
   <img src="img/img_path.jpg">
+    </
   <br>
     The image name is also important. Because the position of visual target that 
     subject see in the vr is depend on the order of image 
