@@ -1,38 +1,30 @@
 # Unity3D_Psychological_Experiment_GKT
 
-<p align="center">
-  <img width="100%" src="img/title_preview.jpg">
-</p>
+This Experiment is an implementation of guilty knowlegde test (GKT) . it utilize vr (virtual reality) and pupil lab (Eye Tracker) to let experimenter know where is subject looking at but without the subject's awrareness.
 
-<h2> Intro - English ver.1.1 </h2>
+
 <p>
-This is a GKT (Guilty Knowledge Test) Experiment project integrate with Unity3D ,
-VR and PupilLab. 
+For more information about third party document: 
   <ul>
-    <li>For more information about Unity3D : (<a href="https://www.google.com/search?q=Unity3D&oq=Unity3D+&aqs=chrome..69i57j0j69i60l3j69i65l3.2267j0j4&sourceid=chrome&ie=UTF-8">link</a>)</li>
-    <li>For more information about VR (OpenVR) : (<a href="https://docs.unity3d.com/560/Documentation/Manual/VRDevices-OpenVR.html">link</a>)</li>
-    <li>For more information about Pupil Lab : (<a href="https://pupil-labs.com/">link</a>)</li>
+    <li><a href="https://www.google.com/search?q=Unity3D&oq=Unity3D+&aqs=chrome..69i57j0j69i60l3j69i65l3.2267j0j4&sourceid=chrome&ie=UTF-8">Unity3D Officail Document</a></li>
+    <li><a href="https://docs.unity3d.com/560/Documentation/Manual/VRDevices-OpenVR.html">VR (OpenVR) document</a></li>
+    <li><a href="https://pupil-labs.com/">Pupil Lab</a></li>
   </ul>
 </p>
 
-<h3>1. Dev documentation : (<a href="#Development">link</a>)</h3>
+
 <p>
-  if you are <b>Unity developer</b> and want to add some new features ,
-you can see the Development part
+Navigator
+  <ul> 
+    <li><a href="#View-Preview">Preview</a>
+    <li><a href="#Format">Data Format Introduction</a>
+    <li><a href="#Development">Development documentation</a>
+  </ul>
 </p>
-
-### 2. Data format intro : [(link)](#Format)
-
-  if you need to analize the exporting data,
-you shold check the format introduction of data which created by program
-
-### 3. Preview : [(link)](#View-Preview)
-
-check the program preview to get a better understanding of experiment flow
 
 ## SettingEnvironment 
 
-<h3> Add HTC Add-on to your vive </h3>
+<h4> Add HTC Add-on to your vive </h4>
 
 -- **vive** -- 
  * Step 1 : [Tutorial video](https://www.youtube.com/watch?v=Yu5XwwUHJKg)
@@ -44,21 +36,20 @@ check the program preview to get a better understanding of experiment flow
   
 -- **vive pro** -- [Tutorial video](https://www.youtube.com/watch?v=ZRdWlmxBH30&t=28s)
 
-<h3> HTC vive installation </h3>
+<h4> HTC vive installation </h4>
 <p>
-you can follow up this tutorial (<a href=https://support.steampowered.com/steamvr/HTC_Vive/>link</a>)
+you can follow up this <a href=https://support.steampowered.com/steamvr/HTC_Vive/>tutorial</a>
 or just open the environment setting at SteamVR 
 </p>
 
-<h3>HTC Vive setting </h3>
+<h4>HTC Vive setting </h4>
   
-please take a look at official tutorial from VIVE ([link](https://www.vive.com/tw/support/vive/category_howto/setting-up-for-the-first-time.html))
+please take a look at official  [tutorial](https://www.vive.com/tw/support/vive/category_howto/setting-up-for-the-first-time.html) from VIVE
 
-<h3>pupil lab capture</h3>
+<h4>pupil lab capture</h4>
   
-Because most of core function of this program is based on the Pupil capture service ,  
-you will need to open pupil capture and make sure you have already correctly connect 
-HMD Add-on directly to computer.
+Because most of core function of this program is based on the Pupil capture service 
+you will need to open pupil capture and make sure you have already correctly connect HMD Add-on directly to computer.
 
 <h2>View-Preview</h2>
 <h3>Title</h3>
@@ -70,13 +61,14 @@ HMD Add-on directly to computer.
 <p align="center">
   <img width="100%" src="img/checking_preview.jpg">
 </p>
-
-<h4>Before step into experiment, there something you need to prepare</h4>
-<p>In this section you will need to check if all the device has settele down.</p>
+<p>
+Before step into experiment, there something you need to prepare
+In this section you will need to check if all the device has settele down.
+</p>
 <p>
 Step1 : finished the HTC Vive environment setting. <br>
 Step2 : open the pupil capture software to get connect with. <br>
-if you haven't finish the environment setting you can back to the 
+<br>if you haven't finish the environment setting you can back to the 
 <a href="#SettingEnvironment">tutorial</a>
 </p>
 
@@ -90,24 +82,20 @@ if you haven't finish the environment setting you can back to the
 <p align="center">
     <img width="100%" src="img/setting_preview.jpg">
 </P>
-<h4>Terminology of setting page (and its defalut value) </h4>
-
-please refer to [Setting Format](#Format)
-
-<h4> Record Data Structure </h4>
+<h4> Use Custom Setting </h4>
 <p>
-for more information please check <a href="#Format">format</a><br>
-  - recordFolder<br>
-  &ensp;|-ExperimentSetting.json <br>
-  &ensp;|-record.json  <br>
-  &ensp;|-001  <br>
-  &ensp;&ensp;|-pupil lab reocrd  <br>
-  &ensp;|-002  <br>
-  &ensp;...  <br>
-  &ensp;|-Trial1.csv  <br>
-  &ensp;|-Trial2.csv  <br>
-  &ensp;...  <br>
+In this page you can custom the experiment setting 
+including almost every detail . If you broke the setting and don't remember
+the original version, don't worry there are four features you might want to use
+<ul>
+    <li>save : save current setting to general setting</li>
+    <li>save as : save current as a new setting </li>
+    <li>boxcutter03a : bottom-right(3rd)</li>
+    <li>broom : bottom-left(4th)</li>
+   </ul>
 </p>
+
+
 
 <h4> How to set custom visual target </h4>
 <p>
@@ -115,44 +103,58 @@ for more information please check <a href="#Format">format</a><br>
   each folder means each trial of experiment
   each image have a position in visual target
   
-  <p>1. Folder name influence order of experiment : <a href="Assets/StreamingAssets/Visual_target">reference</a>
+  <p><b>1. Folder name influence order of experiment :</b><a href="Assets/StreamingAssets/Visual_target">reference</a>
+  <p align="center">
+    <img src="img/visual_path.jpg"></img>
+  </p>
     <br>
     Please Remember the folder name should start with "Trial" ,
     The computer only reconize the folder which name is start with "Trial" !!!
     these will determine the order of visual target set that subject see 
-    </br>
+    <br>
+    
   </p>
   
-   <p>2. Image is sort in alphabetical order
-    <br>
+   <p><b>2. Image is sort in alphabetical order</b> <br>
+  <img src="img/img_path.jpg">
+  <br>
     The image name is also important. Because the position of visual target that 
     subject see in the vr is depend on the order of image 
     </br>
     take example : 
     <br>
-      the mapping positions of <a href="Assets/StreamingAssets/Visual_target/Trial1">reference<a/> is like below
-    </br>
-   
+      the mapping positions of <a href="Assets/StreamingAssets/Visual_target/Trial1">reference</a> is like below
+      <p align="center">
+        <br><img  src="img/img_sort.jpg">
+      </p>
    <ul>
     <li>axe : top-left (1st)</li>
     <li>bastinbrush : top-right (2nd)</li>
     <li>boxcutter03a : bottom-right(3rd)</li>
     <li>broom : bottom-left(4th)</li>
    </ul>
-   <p>
-  </p>
    
-    
-  
-  Key point : 
+   Key point : 
   <blockquote>
   1. the order of folder : In alphabetical order
   <br>2. the image name influence order and the order influence image position</br>
   </blockquote>
+  
+  <p><b>
+  3. Currently only support "png" format image
+  </b> <br>
+   I'll develop more image format in the future 
+   plese look closely if there is any error in the Visual Target Preview
+   it will not record if the image number is incorrect
+
+    
+  
+  
 </p>
 
 <h3>Experiment</h3>
 <p align="center">
+
   <img width="100%" src="img/Experiment_preview.jpg">
 </p>
 
@@ -180,7 +182,21 @@ both can be found at StreammingAssets path
 * FadeIn
 * End Delay
 
-
+<p>
+<b>4. Record Data Structure</b><br>
+  as long as you click start experiment button , the system will automatically generate a experiment setting . feel free if you want to cutomize every setting for your subject <br>
+  <br>
+  - recordFolder<br>
+  &ensp;|-ExperimentSetting.json <br>
+  &ensp;|-record.json  <br>
+  &ensp;|-001  <br>
+  &ensp;&ensp;|-pupil lab reocrd  <br>
+  &ensp;|-002  <br>
+  &ensp;...  <br>
+  &ensp;|-Trial1.csv  <br>
+  &ensp;|-Trial2.csv  <br>
+  &ensp;...  <br>
+</p>
 
 <h2> Devlopment </h2>
 
@@ -189,7 +205,7 @@ the program can be split into three parts
 
 1. GKT-Experiment : control the experiment process
 2. GameManager : Control the UI Event and the interface between GKT-Experiment and GUI Page
-3. EyeTracker : 
+3. EyeTracker :
   * Custom plug-in
   * [Pupil HMD API](https://github.com/pupil-labs/hmd-eyes/blob/master/docs/Developer.md#getting-started)
 
@@ -244,6 +260,13 @@ the program can be split into three parts
 
 <h3>4. Pupil Export Data :</h3>
 <p> Check the pupil document (<a href="https://docs.pupil-labs.com/developer/core/recording-format/">link</a>)</p>
+
+<h3>Future features</h3>
+<ol>
+  <li>support more image format</li>
+  <li>control experiment process</li>
+  <li>support sqlite database</li>
+</ol>
 
 
 
